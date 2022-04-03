@@ -1,0 +1,12 @@
+.header{
+    margin-top: 5px;
+    padding-top:5px;
+    border-radius: 10px;
+    grid-area: header;
+    background-color: skyblue;
+
+}
+.header img{
+    width: 80px;
+
+}
