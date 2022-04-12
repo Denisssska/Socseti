@@ -20,12 +20,11 @@ function App() {
                 <Navbar/>
                 <div className='app-wrapper-all'>
                     <Routes>
-                        <Route path={'/content'} element={<Content/>}/>
-                        <Route path={'/dialogs'} element={<Dialogs/>}/>
-                        <Route path={'/news'} element={<News/>}/>
-                        <Route path={'/music'} element={<Music/>}/>
-                        <Route path={'/settings'} element={<Settings/>}/>
-
+                        <Route path={'/content/*'} element={<Content/>}/>
+                        <Route path={'/dialogs/*'} element={<Dialogs/>}/>
+                        <Route path={'/news/*'} element={<News/>}/>
+                        <Route path={'/music/*'} element={<Music/>}/>
+                        <Route path={'/settings/*'} element={<Settings/>}/>
                     </Routes>
 
                 </div>

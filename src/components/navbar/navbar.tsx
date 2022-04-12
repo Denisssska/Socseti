@@ -3,14 +3,15 @@ import c from './navbar.module.css'
 import {NavLink} from "react-router-dom";
 
 export const Navbar = ()=>{
-// const Inactive = ({isActive})=>(isActive? ' active' : '')
+
+ //let Inactive = ({isActive})=>(isActive? ' active' : '')
     return(
         <nav className={c.nav}>
             <div>
                 <NavLink to='/content'>Content</NavLink>
             </div>
             <div>
-                <NavLink style={({ isActive }) =>({backgroundColor: isActive ? 'white' : ''})} to='/dialogs'>Dialogs</NavLink>
+                <NavLink  className={({ isActive }) =>(isActive ? " active" : "")} to='/dialogs'>Dialogs</NavLink>
             </div>
             <div>
                 <NavLink style={({ isActive }) =>({backgroundColor: isActive ? 'white' : ''})} to='/news'>News</NavLink>

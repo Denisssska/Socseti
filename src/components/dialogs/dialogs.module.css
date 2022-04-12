@@ -11,8 +11,4 @@
     margin: 10px;
 }
 
-.name:hover {
-    font-size: 30px;
-    transition-duration: 0.8s;
-    background-color: powderblue;
-}
+

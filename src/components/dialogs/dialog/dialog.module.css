@@ -1,0 +1,8 @@
+.name:hover {
+    font-size: 30px;
+    transition-duration: 0.8s;
+    background-color: powderblue;
+}
+.message{
+    margin-left: 20px;
+}
