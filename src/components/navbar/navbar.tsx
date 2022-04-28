@@ -2,6 +2,7 @@ import React from 'react';
 import c from './navbar.module.css'
 import {NavLink} from "react-router-dom";
 
+
 export const Navbar = ()=>{
 
  //let Inactive = ({isActive})=>(isActive? ' active' : '')
@@ -21,6 +22,11 @@ export const Navbar = ()=>{
             </div>
             <div>
                 <NavLink style={({ isActive }) =>({backgroundColor: isActive ? 'white' : ''})} to='/settings'>Settings</NavLink>
+            </div>
+            <div>
+                <NavLink style={({ isActive }) =>({backgroundColor: isActive ? 'white' : ''})} to='/friends'>Friends</NavLink>
+                <div className={c.friend}><div>+</div></div>
+
             </div>
 
         </nav>

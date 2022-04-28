@@ -25,3 +25,17 @@
     font-size:20px;
     color:gold;
 }
+.friend{
+    display: flex;
+    justify-content: space-around;
+    border:1px solid floralwhite;
+}
+.friend div{
+    margin:5px;
+    border: 1px solid floralwhite;
+    padding:5px;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: floralwhite;
+}

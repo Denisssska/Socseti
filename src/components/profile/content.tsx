@@ -4,17 +4,27 @@ import {Post} from "./myposts/post/post";
 import {Contentinfo} from "./myposts/contentinfo/contentinfo";
 
 
-export const Content = () => {
+export type ProfileObjType = {
+    id: string
+    message: string
+    likes: number
+}
+type ArrayPost={
+    newMessageFromPost:string
+    postObj:Array<ProfileObjType>
+    addPost:()=>void
+    changeFromPost:(text:string)=>void
+}
+export const Content = (props:ArrayPost) => {
 
-    let postData = [
-        {name:'what', likes:'21'},
-        {name:'that', likes:'2'},
-        {name:'why', likes:'12'}
-    ]
-    let posts = postData.map((item:{likes:string, name:string})=><Post name={item.name} likes={item.likes}/>)
+    let posts = props.postObj.map((item) =><Post key={item.id} id={item.id} message={item.message} likes={item.likes}/>)
     return (
         <div className={c.content}>
-            <Contentinfo/>
+            <Contentinfo
+                newMessageFromPost={props.newMessageFromPost}
+                addPost={props.addPost}
+                changeFromPost={props.changeFromPost}
+            />
             {posts}
         </div>
     )
