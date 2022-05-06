@@ -21,28 +21,38 @@ export type StateType = {
     dialogData: Array<DialogDataType>
     sideBar: Array<SideBarType>
 }
+
+export type ActionsType = ReturnType<typeof AddPostTextActionCreater> |
+    ReturnType<typeof UpdateNewPostActionCreater>|
+    ReturnType<typeof AddMessageActionCreater>
 export type StoreType = {
     _state: StateType
-    rerenderEntireTree: (state: StateType) => void
-    addPost: () => void
-    changeFromPost: (newText: string) => void
-    subscribe: () => void
+    getState: () => StateType
+    _callSubscriber: () => void
+    dispatch: (action: ActionsType) => void
+    subscribe: (observer: () => void) => void
 }
 
-let store = {
+
+export const AddPostTextActionCreater = () => ({type: 'ADD-POST'}) as const
+export const UpdateNewPostActionCreater = (newText: string) => ({
+    type: 'CHANGE-FROM-POST',
+    newText: newText
+}) as const
+export const AddMessageActionCreater = ()=>({type:'add-message'}) as const
+
+let store: StoreType = {
     _state: {
 
         newMessageFromPost: '',
         profileObj: [
             {id: v1(), message: 'Hi man', likes: 12},
             {id: v1(), message: 'Hi man', likes: 13},
-            {id: v1(), message: 'Hi man', likes: 14},
+
         ],
         dialogData: [
             {message: 'hi', id: v1(), name: 'Sasha'},
             {message: 'hey', id: v1(), name: 'Pasha'},
-            {message: 'by', id: v1(), name: 'Pasha'},
-            {message: 'my', id: v1(), name: 'Masha'}
         ],
         sideBar: [
             {
@@ -65,24 +75,34 @@ let store = {
     getState() {
         return this._state
     },
-    _rerenderEntireTree() {
+    _callSubscriber() {
     },
-    addPost() {
-        const newPost = {
-            id: v1(),
-            message: this._state.newMessageFromPost,
-            likes: 10
+    dispatch(action: ActionsType) {
+        if (action.type === "ADD-POST") {
+            const newPost = {
+                id: v1(),
+                message: this._state.newMessageFromPost,
+                likes: 10
+            }
+            this._state.profileObj.push(newPost)
+            this._state.newMessageFromPost = ''
+            this._callSubscriber()
+        } else if (action.type === 'CHANGE-FROM-POST') {
+            this._state.newMessageFromPost = action.newText
+            this._callSubscriber()
+        }else if(action.type === 'add-message'){
+            const newMessage = {
+                message:this._state.newMessageFromPost,
+                id:v1(),
+                name:'Sasha'
+            }
+            this._state.dialogData.push(newMessage)
+            this._state.newMessageFromPost=''
+            this._callSubscriber()
         }
-        this._state.profileObj.push(newPost)
-        this._state.newMessageFromPost = ''
-        this._rerenderEntireTree()
-    },
-    changeFromPost(newText: string) {
-        this._state.newMessageFromPost = newText
-        this._rerenderEntireTree()
     },
     subscribe(observer: () => void) {
-        this._rerenderEntireTree = observer
+        this._callSubscriber = observer
     }
 }
 export default store;

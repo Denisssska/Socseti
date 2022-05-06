@@ -12,6 +12,7 @@ export const Dialog = (props:DialogsPropsType) => {
 
     return (
         <div>
+
             <span>
                 <NavLink className={c.name} to={'/dialogs/' + props.id}>{props.name}</NavLink>
             </span>

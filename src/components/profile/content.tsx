@@ -2,28 +2,22 @@ import React from 'react';
 import c from './content.module.css'
 import {Post} from "./myposts/post/post";
 import {Contentinfo} from "./myposts/contentinfo/contentinfo";
+import {ActionsType, ProfileObjType} from "../../reduxe/state";
 
 
-export type ProfileObjType = {
-    id: string
-    message: string
-    likes: number
+type ArrayPost = {
+    newMessageFromPost: string
+    postObj: Array<ProfileObjType>
+    dispatch: (action: ActionsType) => void
 }
-type ArrayPost={
-    newMessageFromPost:string
-    postObj:Array<ProfileObjType>
-    addPost:()=>void
-    changeFromPost:(text:string)=>void
-}
-export const Content = (props:ArrayPost) => {
+export const Content: React.FC<ArrayPost> = ({newMessageFromPost, postObj, dispatch}) => {
 
-    let posts = props.postObj.map((item) =><Post key={item.id} id={item.id} message={item.message} likes={item.likes}/>)
+    let posts = postObj.map((item) => <Post key={item.id} id={item.id} message={item.message} likes={item.likes}/>)
     return (
         <div className={c.content}>
             <Contentinfo
-                newMessageFromPost={props.newMessageFromPost}
-                addPost={props.addPost}
-                changeFromPost={props.changeFromPost}
+                newMessageFromPost={newMessageFromPost}
+                dispatch={dispatch}
             />
             {posts}
         </div>

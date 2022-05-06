@@ -9,34 +9,14 @@ import {News} from "./components/news/news";
 import {Music} from "./components/music/music";
 import {Settings} from "./components/settings/settings";
 import {Friends} from "./components/friends/friends";
+import {StoreType} from "./reduxe/state";
 
-
-export type SideBarType = {
-    name: string
-    surname: string
-    photo: string
-}
-export type DialogDataType = {
-    message: string
-    id: string
-    name: string
-}
-export type ProfileObjType = {
-    id: string
-    message: string
-    likes: number
-}
-export type StateType = {
-    newMessageFromPost: string
-    profileObj: Array<ProfileObjType>
-    dialogData: Array<DialogDataType>
-    sideBar: Array<SideBarType>
-    addPost: () => void
-    changeFromPost: (text: string) => void
+type PropsType = {
+    store: StoreType
 }
 
-function App(props: StateType) {
-
+const App: React.FC<PropsType> = ({store}) => {
+    const state = store.getState()
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -45,17 +25,20 @@ function App(props: StateType) {
                 <div className='app-wrapper-all'>
                     <Routes>
                         <Route path={'/content/*'}
-                               element={<Content postObj={props.profileObj}
-                                                 addPost={props.addPost}
-                                                 changeFromPost={props.changeFromPost}
-                                                 newMessageFromPost={props.newMessageFromPost}
+                               element={<Content postObj={state.profileObj}
+                                                 dispatch={store.dispatch.bind(store)}
+                                                 newMessageFromPost={state.newMessageFromPost}
                                />}
                         />
-                        <Route path={'/dialogs/*'} element={<Dialogs dialogData={props.dialogData}/>}/>
+                        <Route path={'/dialogs/*'} element={<Dialogs dialogData={state.dialogData}
+                                                                     dispatch={store.dispatch.bind(store)}
+                                                                     newMessageFromPost={state.newMessageFromPost}
+                        />}
+                        />
                         <Route path={'/news/*'} element={<News/>}/>
                         <Route path={'/music/*'} element={<Music/>}/>
                         <Route path={'/settings/*'} element={<Settings/>}/>
-                        <Route path={'/friends/*'} element={<Friends sideBar={props.sideBar}/>}/>
+                        <Route path={'/friends/*'} element={<Friends sideBar={state.sideBar}/>}/>
                     </Routes>
                 </div>
             </div>

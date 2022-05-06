@@ -2,10 +2,8 @@ import React from 'react';
 import c from './navbar.module.css'
 import {NavLink} from "react-router-dom";
 
-
 export const Navbar = ()=>{
 
- //let Inactive = ({isActive})=>(isActive? ' active' : '')
     return(
         <nav className={c.nav}>
             <div>
