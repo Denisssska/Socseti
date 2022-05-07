@@ -4,6 +4,10 @@ import {ActionsType, StateType} from "./state";
 const ADD_POST = "ADD-POST";
 const CHANGE_FROM_POST = 'CHANGE-FROM-POST';
 
+export const AddPostTextActionCreater = () => ({type: 'ADD-POST'}) as const
+export const UpdateNewPostActionCreater = (newText: string) => ({
+    type: 'CHANGE-FROM-POST', newText: newText
+}) as const
 const contentReducer=(state:StateType,action:ActionsType)=>{
     switch (action.type){
         case ADD_POST:

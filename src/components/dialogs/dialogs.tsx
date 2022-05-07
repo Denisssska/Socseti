@@ -2,7 +2,8 @@ import React, {ChangeEvent} from 'react';
 import c from './dialogs.module.css';
 import Dialog from "./dialog/dialog";
 import {Unybutton} from "../profile/unybutton";
-import {ActionsType, AddMessageActionCreater, DialogDataType, UpdateNewPostActionCreater} from "../../reduxe/state";
+import { AddMessageActionCreater,  UpdateNewPostActionCreater} from "../../reduxe/dialogs-reducer";
+import {ActionsType, DialogDataType} from "../../reduxe/state";
 
 
 export type DialogsDataType={

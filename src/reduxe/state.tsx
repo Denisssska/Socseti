@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import contentReducer from "./Content-reducer";
-import dialogsReducer from "./dialogs-reducer";
+import contentReducer, {AddPostTextActionCreater, UpdateNewPostActionCreater} from "./Content-reducer";
+import dialogsReducer, {AddMessageActionCreater} from "./dialogs-reducer";
 
 export type SideBarType = {
     name: string
@@ -35,12 +35,6 @@ export type StoreType = {
     subscribe: (observer: () => void) => void
 }
 
-
-export const AddPostTextActionCreater = () => ({type: 'ADD-POST'}) as const
-export const UpdateNewPostActionCreater = (newText: string) => ({
-    type: 'CHANGE-FROM-POST', newText: newText
-}) as const
-export const AddMessageActionCreater = () => ({type: 'add-message'}) as const
 
 let store: StoreType = {
     _state: {

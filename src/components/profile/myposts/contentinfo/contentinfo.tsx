@@ -1,7 +1,8 @@
 import React from 'react';
 import c from '../../content.module.css'
 import {Unybutton} from "../../unybutton";
-import {ActionsType, AddPostTextActionCreater, UpdateNewPostActionCreater} from "../../../../reduxe/state";
+import { AddPostTextActionCreater, UpdateNewPostActionCreater} from "../../../../reduxe/Content-reducer";
+import {ActionsType} from "../../../../reduxe/state";
 
 type ContentInfoType = {
     dispatch:(action:ActionsType)=>void

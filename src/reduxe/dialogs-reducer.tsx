@@ -3,6 +3,10 @@ import {ActionsType, StateType} from "./state";
 const CHANGE_FROM_POST = 'CHANGE-FROM-POST';
 const ADD_MESSAGE = 'add-message';
 
+export const UpdateNewPostActionCreater = (newText: string) => ({
+    type: 'CHANGE-FROM-POST', newText: newText
+}) as const
+export const AddMessageActionCreater = () => ({type: 'add-message'}) as const
 const dialogsReducer =(state:StateType,action:ActionsType)=> {
     switch (action.type) {
         case CHANGE_FROM_POST:
