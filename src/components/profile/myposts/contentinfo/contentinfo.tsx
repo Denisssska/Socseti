@@ -2,7 +2,7 @@ import React from 'react';
 import c from '../../content.module.css'
 import {Unybutton} from "../../unybutton";
 import { AddPostTextActionCreater, UpdateNewPostActionCreater} from "../../../../reduxe/Content-reducer";
-import {ActionsType} from "../../../../reduxe/state";
+import {ActionsType} from "../../../../reduxe/store";
 
 type ContentInfoType = {
     dispatch:(action:ActionsType)=>void
@@ -14,10 +14,10 @@ export const Contentinfo:React.FC<ContentInfoType> = ({dispatch,newMessageFromPo
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
-        let action =AddPostTextActionCreater()
-        dispatch(action)
-        let baction = UpdateNewPostActionCreater('')
-        dispatch(baction)
+        let actionAdd =AddPostTextActionCreater()
+        dispatch(actionAdd)
+        let actionUpdate = UpdateNewPostActionCreater('')
+        dispatch(actionUpdate)
             // props.addPost()
             // props.changeFromPost('')
     }

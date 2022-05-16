@@ -2,7 +2,7 @@ import React from 'react';
 import c from './content.module.css'
 import {Post} from "./myposts/post/post";
 import {Contentinfo} from "./myposts/contentinfo/contentinfo";
-import {ActionsType, ProfileObjType} from "../../reduxe/state";
+import {ActionsType, ProfileObjType} from "../../reduxe/store";
 
 
 type ArrayPost = {

@@ -9,13 +9,11 @@ import {News} from "./components/news/news";
 import {Music} from "./components/music/music";
 import {Settings} from "./components/settings/settings";
 import {Friends} from "./components/friends/friends";
-import {StoreType} from "./reduxe/state";
 
-type PropsType = {
-    store: StoreType
-}
 
-const App: React.FC<PropsType> = ({store}) => {
+
+const App: React.FC<React.PropsWithChildren<any>> = ({store}) => {
+
     const state = store.getState()
     return (
         <BrowserRouter>
@@ -25,14 +23,14 @@ const App: React.FC<PropsType> = ({store}) => {
                 <div className='app-wrapper-all'>
                     <Routes>
                         <Route path={'/content/*'}
-                               element={<Content postObj={state.profileObj}
+                               element={<Content postObj={state.profile.profileObj}
                                                  dispatch={store.dispatch.bind(store)}
-                                                 newMessageFromPost={state.newMessageFromPost}
+                                                 newMessageFromPost={state.profile.newMessageFromPost}
                                />}
                         />
-                        <Route path={'/dialogs/*'} element={<Dialogs dialogData={state.dialogData}
+                        <Route path={'/dialogs/*'} element={<Dialogs dialogData={state.dialog.dialogData}
                                                                      dispatch={store.dispatch.bind(store)}
-                                                                     newMessageFromPost={state.newMessageFromPost}
+                                                                     newMessageFromDialog={state.dialog.newMessageFromDialog}
                         />}
                         />
                         <Route path={'/news/*'} element={<News/>}/>

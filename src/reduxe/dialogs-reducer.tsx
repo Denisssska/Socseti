@@ -1,25 +1,33 @@
 import {v1} from "uuid";
-import {ActionsType, StateType} from "./state";
+import {ActionsType} from "./store";
 const CHANGE_FROM_POST = 'CHANGE-FROM-POST';
 const ADD_MESSAGE = 'add-message';
 
 export const UpdateNewPostActionCreater = (newText: string) => ({
     type: 'CHANGE-FROM-POST', newText: newText
 }) as const
+
+let initialState = {
+    newMessageFromDialog: '',
+    dialogData: [
+        {message: 'hi', id: v1(), name: 'Sasha'},
+        {message: 'hey', id: v1(), name: 'Pasha'},
+    ]
+}
 export const AddMessageActionCreater = () => ({type: 'add-message'}) as const
-const dialogsReducer =(state:StateType,action:ActionsType)=> {
+const dialogsReducer =(state = initialState,action:ActionsType)=> {
     switch (action.type) {
         case CHANGE_FROM_POST:
-            state.newMessageFromPost = action.newText
+            state.newMessageFromDialog = action.newText
             return state;
         case ADD_MESSAGE:
             const newMessage = {
-                message: state.newMessageFromPost,
+                message: state.newMessageFromDialog,
                 id: v1(),
                 name: 'Sasha'
             }
             state.dialogData.push(newMessage)
-            state.newMessageFromPost = ''
+            state.newMessageFromDialog = ''
             return state
         default:
             return state

@@ -17,36 +17,49 @@ export type ProfileObjType = {
     message: string
     likes: number
 }
-export type StateType = {
+export type ProfileType ={
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
+}
+type DialogType={
+    newMessageFromDialog: string
     dialogData: Array<DialogDataType>
+}
+export type StateType = {
+   profile:ProfileType
+    dialog:DialogType
     sideBar: Array<SideBarType>
 }
 
 export type ActionsType = ReturnType<typeof AddPostTextActionCreater> |
     ReturnType<typeof UpdateNewPostActionCreater> |
     ReturnType<typeof AddMessageActionCreater>
-export type StoreType = {
+
+ type StoreType = {
     _state: StateType
     getState: () => StateType
     _callSubscriber: () => void
     dispatch: (action: ActionsType) => void
     subscribe: (observer: () => void) => void
-}
 
+}
 
 let store: StoreType = {
     _state: {
-        newMessageFromPost: '',
-        profileObj: [
-            {id: v1(), message: 'Hi man', likes: 12},
-            {id: v1(), message: 'Hi man', likes: 13},
-        ],
-        dialogData: [
-            {message: 'hi', id: v1(), name: 'Sasha'},
-            {message: 'hey', id: v1(), name: 'Pasha'},
-        ],
+        profile:{
+            newMessageFromPost: '',
+            profileObj: [
+                {id: v1(), message: 'Hi man', likes: 12},
+                {id: v1(), message: 'Hi man', likes: 13},
+            ]
+        },
+        dialog:{
+            newMessageFromDialog: '',
+            dialogData: [
+                {message: 'hi', id: v1(), name: 'Sasha'},
+                {message: 'hey', id: v1(), name: 'Pasha'},
+            ]
+        },
         sideBar: [
             {
                 name: 'petr',
@@ -71,8 +84,8 @@ let store: StoreType = {
     _callSubscriber() {
     },
     dispatch(action: ActionsType) {
-        this._state = contentReducer(this._state, action)
-       this._state = dialogsReducer(this._state, action)
+        this._state.profile = contentReducer(this._state.profile, action)
+       this._state.dialog = dialogsReducer(this._state.dialog, action)
         this._callSubscriber()
     },
     subscribe(observer: () => void) {
