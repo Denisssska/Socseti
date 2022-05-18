@@ -2,49 +2,36 @@ import React, {ChangeEvent} from 'react';
 import c from './dialogs.module.css';
 import Dialog from "./dialog/dialog";
 import {Unybutton} from "../profile/unybutton";
-import { AddMessageActionCreater,  UpdateNewPostActionCreater} from "../../reduxe/dialogs-reducer";
-import {ActionsType, DialogDataType} from "../../reduxe/store";
+import {DialogDataType} from "../../reduxe/dialogs-reducer";
 
 
-export type DialogsDataType={
-    dialogData:Array<DialogDataType>
-    dispatch:(action:ActionsType)=>void
-    newMessageFromDialog:string
+
+
+export type DialogsDataType = {
+    dialogData: Array<DialogDataType>
+    addPost: () => void
+    changeFromPost: (value:string) => void
+    newMessageFromDialog: string
 }
-export const Dialogs:React.FC<DialogsDataType> = ({newMessageFromDialog,dispatch,dialogData}) => {
+export const Dialogs: React.FC<DialogsDataType> = ({newMessageFromDialog,
+                                                       dialogData,
+                                                       addPost,
+                                                       changeFromPost}) => {
 
-
-    const addPost = () => {
-        let actionAdd =AddMessageActionCreater()
-        dispatch(actionAdd)
-        let actionUpdate = UpdateNewPostActionCreater('')
-        dispatch(actionUpdate)
-        // props.addPost()
-        // props.changeFromPost('')
+    const addPostDialog = () => {
+        addPost()
     }
-
-    const changeFromPost=(event:ChangeEvent<HTMLTextAreaElement>)=>{
-        let newMessage = event.currentTarget.value
-        if(newMessage){
-            let action = UpdateNewPostActionCreater(newMessage)
-            dispatch(action)
-        }
-
+    const changeFromPostDialog = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        changeFromPost(event.currentTarget.value)
     }
-
-    let dialogArr = dialogData.map((item)=><Dialog message={item.message} id={item.id} name={item.name}/>)
+    let dialogArr = dialogData.map((item) => <Dialog key={item.id} message={item.message} id={item.id} name={item.name}/>)
     return (
-
         <div className={c.dialogs}>
-
             <div className={c.dialogsName}>
-
-            <textarea value={newMessageFromDialog} onChange={changeFromPost}   className={c.textarea}/>
-
-                <Unybutton callback={addPost} name='Push'/>
+                <textarea value={newMessageFromDialog} onChange={changeFromPostDialog} className={c.textarea}/>
+                <Unybutton callback={addPostDialog} name='Push'/>
                 {dialogArr}
             </div>
-
         </div>
 
     )

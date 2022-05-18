@@ -5,10 +5,10 @@ import {NavLink} from "react-router-dom";
 type DialogsPropsType = {
     name: string,
     id: string
-    message:string
+    message: string
 
 }
-export const Dialog = (props:DialogsPropsType) => {
+export const Dialog = (props: DialogsPropsType) => {
 
     return (
         <div>
@@ -17,7 +17,7 @@ export const Dialog = (props:DialogsPropsType) => {
                 <NavLink className={c.name} to={'/dialogs/' + props.id}>{props.name}</NavLink>
             </span>
 
-            <span  className={c.dialogMessage}>
+            <span className={c.dialogMessage}>
                <span className={c.message}>{props.message}</span>
            </span>
 

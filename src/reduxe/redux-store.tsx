@@ -4,12 +4,14 @@ import dialogsReducer from "./dialogs-reducer";
 
 
 
-export type ReducersBoxType= ReturnType<typeof combineReducers>
+export type StoreType= typeof legacy_createStore;
+export type StateAppType = ReturnType<typeof reducersBox>
 let reducersBox = combineReducers({
-    profile:contentReducer,
-    dialog:dialogsReducer,
+    profile: contentReducer,
+    dialog: dialogsReducer,
 })
 
-let store:ReducersBoxType = legacy_createStore(reducersBox)
+let store = legacy_createStore(reducersBox)
+
 
 export default store

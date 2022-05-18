@@ -1,34 +1,30 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import c from '../../content.module.css'
 import {Unybutton} from "../../unybutton";
-import { AddPostTextActionCreater, UpdateNewPostActionCreater} from "../../../../reduxe/Content-reducer";
-import {ActionsType} from "../../../../reduxe/store";
+import {Post} from "../post/post";
+import {ProfileObjType} from "../../../../reduxe/Content-reducer";
 
 type ContentInfoType = {
-    dispatch:(action:ActionsType)=>void
-    newMessageFromPost:string
+    changePost: (newText: string) => void
+    addPostText: () => void
+    newMessageFromPost: string
+    profileObj: Array<ProfileObjType>
 }
+export const ContentInfo: React.FC<ContentInfoType> = ({profileObj,
+                                                           newMessageFromPost,
+                                                           changePost,
+                                                           addPostText}) => {
 
-export const Contentinfo:React.FC<ContentInfoType> = ({dispatch,newMessageFromPost}) => {
-
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
-
+    let posts = profileObj.map((item) => <Post key={item.id} id={item.id}
+                                               message={item.message}
+                                               likes={item.likes}/>)
     const addPost = () => {
-        let actionAdd =AddPostTextActionCreater()
-        dispatch(actionAdd)
-        let actionUpdate = UpdateNewPostActionCreater('')
-        dispatch(actionUpdate)
-            // props.addPost()
-            // props.changeFromPost('')
+        addPostText()
     }
 
-    const changeFromPost=()=>{
-        let newText = newPostElement.current?.value
-        if(newText){
-            let action = UpdateNewPostActionCreater(newText)
-          dispatch(action)
-
-        }
+    const changeFromPost = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        let newText = event.currentTarget.value
+            changePost(newText)
     }
     return (
         <div>
@@ -37,10 +33,11 @@ export const Contentinfo:React.FC<ContentInfoType> = ({dispatch,newMessageFromPo
                     src="https://global-uploads.webflow.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
                     alt="aaa"/>
             </div>
-            <textarea value={newMessageFromPost} onChange={changeFromPost} ref={newPostElement}  className={c.textarea}/>
+            <textarea value={newMessageFromPost} onChange={changeFromPost} className={c.textarea}/>
             <div>
                 <Unybutton callback={addPost} name='Push'/>
             </div>
+            {posts}
         </div>
     );
 };

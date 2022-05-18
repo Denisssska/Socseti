@@ -2,19 +2,15 @@ import React from 'react';
 import './App.css';
 import Header from "./components/header/header";
 import {Navbar} from "./components/navbar/navbar";
-import {Content} from "./components/profile/content";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Dialogs} from "./components/dialogs/dialogs";
 import {News} from "./components/news/news";
 import {Music} from "./components/music/music";
 import {Settings} from "./components/settings/settings";
 import {Friends} from "./components/friends/friends";
+import {ContentInfoContainer} from "./components/profile/myposts/contentinfo/ContentInfoContainer";
+import {DialogsContainer} from "./components/dialogs/dialogsContainer";
 
-
-
-const App: React.FC<React.PropsWithChildren<any>> = ({store}) => {
-
-    const state = store.getState()
+const App = () => {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -22,21 +18,12 @@ const App: React.FC<React.PropsWithChildren<any>> = ({store}) => {
                 <Navbar/>
                 <div className='app-wrapper-all'>
                     <Routes>
-                        <Route path={'/content/*'}
-                               element={<Content postObj={state.profile.profileObj}
-                                                 dispatch={store.dispatch.bind(store)}
-                                                 newMessageFromPost={state.profile.newMessageFromPost}
-                               />}
-                        />
-                        <Route path={'/dialogs/*'} element={<Dialogs dialogData={state.dialog.dialogData}
-                                                                     dispatch={store.dispatch.bind(store)}
-                                                                     newMessageFromDialog={state.dialog.newMessageFromDialog}
-                        />}
-                        />
+                        <Route path={'/content/*'} element={<ContentInfoContainer/>}/>
+                        <Route path={'/dialogs/*'} element={<DialogsContainer/>}/>
                         <Route path={'/news/*'} element={<News/>}/>
                         <Route path={'/music/*'} element={<Music/>}/>
                         <Route path={'/settings/*'} element={<Settings/>}/>
-                        <Route path={'/friends/*'} element={<Friends sideBar={state.sideBar}/>}/>
+                        <Route path={'/friends/*'} element={<Friends />}/>
                     </Routes>
                 </div>
             </div>
