@@ -9,10 +9,14 @@ type PostObjType = {
 }
 export const Post = (props: PostObjType) => {
     return (
-            <div className={c.posts}>
+            <div className={c.posts} style={{
+                backgroundImage: `url("https://oir.mobi/uploads/posts/2021-01/1611947019_16-p-krasivii-igrovoi-fon-dlya-fotoshopa-16.jpg")`,
+                backgroundRepeat:'no-repeat',
+
+            }}>
                 <div>
                     <img className={c.face}
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDm--0sWWVwceme4xAT5CV6DVoxBPfS_hxgg&usqp=CAU"
+                         src="https://discordgid.ru/wp-content/uploads/2020/06/fon-diskord.jpg"
                          alt=""/>
                     <span className={c.text}>{props.message}</span>
 

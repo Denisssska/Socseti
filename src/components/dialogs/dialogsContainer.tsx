@@ -9,6 +9,7 @@ import {
 import {Dispatch} from "redux";
 import {StateAppType} from "../../reduxe/redux-store";
 
+
 type MapStatePropsType = {
     dialogData: DialogDataType[]
     newMessageFromDialog: string
@@ -17,7 +18,7 @@ type MapDispatchPropsType = {
     addPost: () => void
     changeFromPost: (newText: string) => void
 }
-export type MapsAllPropsType = MapStatePropsType & MapDispatchPropsType
+
 let mapStateToProps = (state: StateAppType): MapStatePropsType => {
     return {
         dialogData: state.dialog.dialogData,
@@ -34,4 +35,5 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
         }
     }
 }
+
 export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);

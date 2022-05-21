@@ -8,11 +8,10 @@ type DialogsPropsType = {
     message: string
 
 }
-export const Dialog = (props: DialogsPropsType) => {
+ const DialogSecret = (props: DialogsPropsType) => {
 
     return (
         <div>
-
             <span>
                 <NavLink className={c.name} to={'/dialogs/' + props.id}>{props.name}</NavLink>
             </span>
@@ -25,4 +24,5 @@ export const Dialog = (props: DialogsPropsType) => {
     );
 };
 
-export default Dialog;
+
+export const Dialog=React.memo(DialogSecret)

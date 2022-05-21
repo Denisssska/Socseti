@@ -2,14 +2,14 @@
     border-radius: 10px;
     padding:5px;
     grid-area: nav;
-    background-color: cornflowerblue;
+    background-color: aliceblue;
     box-shadow: 10px 5px 5px darkslategrey;
 
 }
 .nav a{
     font-weight: bold;
     text-decoration: none;
-    color: darkslategray;
+    color: yellow;
     line-height: 5;
     box-shadow: 10px 5px 5px darkslategrey;
     border-radius: 20px;
@@ -19,7 +19,7 @@
     font-size: 20px;
     transition:1s;
     font-weight: bold;
-    background-color: skyblue;
+
 }
 .isActive{
     font-size:20px;

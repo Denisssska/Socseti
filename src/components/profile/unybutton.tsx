@@ -3,6 +3,7 @@ import React from 'react';
 type ButtonType ={
     name:string,
     callback:()=>void
+    className:string
 }
 export const Unybutton =(props:ButtonType)=>{
     const OnclickFun = ()=>{
@@ -11,7 +12,7 @@ export const Unybutton =(props:ButtonType)=>{
     }
     return(
         <div>
-            <button onClick={OnclickFun}>{props.name}</button>
+            <button className={props.className} onClick={OnclickFun}>{props.name}</button>
         </div>
     )
 }

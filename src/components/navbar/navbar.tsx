@@ -5,7 +5,11 @@ import {NavLink} from "react-router-dom";
 export const Navbar = ()=>{
 
     return(
-        <nav className={c.nav}>
+        <nav className={c.nav} style={{
+            backgroundImage: `url("https://kartinkin.net/uploads/posts/2021-07/thumbs/1625579398_18-kartinkin-com-p-svyaz-fon-krasivie-foni-19.jpg")`,
+            backgroundRepeat:'no-repeat',
+
+        }}>
             <div>
                 <NavLink to='/content'>Content</NavLink>
             </div>

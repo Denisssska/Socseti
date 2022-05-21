@@ -21,21 +21,20 @@ export const ContentInfo: React.FC<ContentInfoType> = ({profileObj,
     const addPost = () => {
         addPostText()
     }
-
     const changeFromPost = (event: ChangeEvent<HTMLTextAreaElement>) => {
         let newText = event.currentTarget.value
             changePost(newText)
     }
     return (
-        <div>
+        <div className={c.face} >
             <div className={c.contentImg}>
                 <img
-                    src="https://global-uploads.webflow.com/5ef5480befd392489dacf544/5f9f5e5943de7e69a1339242_5f44a7398c0cdf460857e744_img-image.jpeg"
+                    src="https://kartinkin.net/uploads/posts/2020-07/1593792591_33-p-fon-brawl-stars-57.jpg"
                     alt="aaa"/>
             </div>
             <textarea value={newMessageFromPost} onChange={changeFromPost} className={c.textarea}/>
             <div>
-                <Unybutton callback={addPost} name='Push'/>
+                <Unybutton callback={addPost} name='Push' className={c.yellow}/>
             </div>
             {posts}
         </div>

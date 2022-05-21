@@ -32,8 +32,6 @@ const dialogsReducer = (state: InitialStateDialogType = initialStateDialog, acti
     switch (action.type) {
         case CHANGE_FROM_DIALOG_POST:
             return {...state, newMessageFromDialog: action.newMessageText}
-
-
         case ADD_MESSAGE:
             const newMessage = {
                 message: state.newMessageFromDialog,

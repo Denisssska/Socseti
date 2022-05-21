@@ -16,7 +16,11 @@ const App = () => {
             <div className='app-wrapper'>
                 <Header/>
                 <Navbar/>
-                <div className='app-wrapper-all'>
+                <div className='app-wrapper-all' style={{
+                    backgroundImage: `url("https://kartinkin.net/uploads/posts/2021-07/thumbs/1625579398_18-kartinkin-com-p-svyaz-fon-krasivie-foni-19.jpg")`,
+                    backgroundRepeat:'no-repeat',
+
+                }}>
                     <Routes>
                         <Route path={'/content/*'} element={<ContentInfoContainer/>}/>
                         <Route path={'/dialogs/*'} element={<DialogsContainer/>}/>

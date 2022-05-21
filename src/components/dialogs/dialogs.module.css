@@ -10,5 +10,7 @@
 .dialogsName div ,.dialogMessage div {
     margin: 10px;
 }
-
+.button{
+    background-color: aqua;
+}
 

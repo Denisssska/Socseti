@@ -3,7 +3,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     box-shadow: 10px 5px 5px darkslategrey;
-    background-color: navajowhite;
+    background-color: skyblue;
     border-radius: 20px;
     padding:5px;
 
@@ -26,9 +26,9 @@
     margin-right: 20px;
 }
 .text{
-    background-color: lightgoldenrodyellow;
+    background-color: aquamarine;
     margin-left: 20px;
     padding:5px;
-    border:5px solid navajowhite;
+    border:5px solid yellow;
     border-radius: 15px;
 }

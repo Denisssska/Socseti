@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import c from './dialogs.module.css';
-import Dialog from "./dialog/dialog";
+import {Dialog} from "./dialog/dialog";
 import {Unybutton} from "../profile/unybutton";
 import {DialogDataType} from "../../reduxe/dialogs-reducer";
 
@@ -13,7 +13,8 @@ export type DialogsDataType = {
     changeFromPost: (value:string) => void
     newMessageFromDialog: string
 }
-export const Dialogs: React.FC<DialogsDataType> = ({newMessageFromDialog,
+
+ const DialogsSecret: React.FC<DialogsDataType> = ({newMessageFromDialog,
                                                        dialogData,
                                                        addPost,
                                                        changeFromPost}) => {
@@ -29,10 +30,11 @@ export const Dialogs: React.FC<DialogsDataType> = ({newMessageFromDialog,
         <div className={c.dialogs}>
             <div className={c.dialogsName}>
                 <textarea value={newMessageFromDialog} onChange={changeFromPostDialog} className={c.textarea}/>
-                <Unybutton callback={addPostDialog} name='Push'/>
+                <Unybutton className={c.button} callback={addPostDialog} name='Push'/>
                 {dialogArr}
             </div>
         </div>
 
     )
 }
+export const Dialogs = React.memo(DialogsSecret)

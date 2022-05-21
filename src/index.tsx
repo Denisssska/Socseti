@@ -5,9 +5,6 @@ import React from 'react';
 import store from "./reduxe/redux-store";
 import {Provider} from "react-redux";
 
-
-
-// let rerenderEntireTree = () => {
     ReactDOM.render(
 
             <Provider store={store}>
@@ -16,9 +13,5 @@ import {Provider} from "react-redux";
 
         document.getElementById('root')
     );
-// }
-// rerenderEntireTree()
-//
-//  store.subscribe(rerenderEntireTree)
-//
+
 reportWebVitals();
