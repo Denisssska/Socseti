@@ -6,8 +6,13 @@
     background-color: aliceblue;
     box-shadow: 10px 5px 5px darkslategrey;
 
+    background-image: url(https://kartinkin.net/uploads/posts/2021-07/thumbs/1625579392_23-kartinkin-com-p-svyaz-fon-krasivie-foni-24.jpg);
+    background-repeat:no-repeat;
 }
 .header img{
-    width: 80px;
+    margin-left: 15px;
+    width: 3%;
+    border-radius: 30px;
+
 
 }

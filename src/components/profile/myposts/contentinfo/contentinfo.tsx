@@ -10,10 +10,12 @@ type ContentInfoType = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
 }
-export const ContentInfo: React.FC<ContentInfoType> = ({profileObj,
+export const ContentInfo: React.FC<ContentInfoType> = ({
+                                                           profileObj,
                                                            newMessageFromPost,
                                                            changePost,
-                                                           addPostText}) => {
+                                                           addPostText
+                                                       }) => {
 
     let posts = profileObj.map((item) => <Post key={item.id} id={item.id}
                                                message={item.message}
@@ -23,10 +25,10 @@ export const ContentInfo: React.FC<ContentInfoType> = ({profileObj,
     }
     const changeFromPost = (event: ChangeEvent<HTMLTextAreaElement>) => {
         let newText = event.currentTarget.value
-            changePost(newText)
+        changePost(newText)
     }
     return (
-        <div className={c.face} >
+        <div className={c.face}>
             <div className={c.contentImg}>
                 <img
                     src="https://kartinkin.net/uploads/posts/2020-07/1593792591_33-p-fon-brawl-stars-57.jpg"

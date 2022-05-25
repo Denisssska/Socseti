@@ -1,0 +1,15 @@
+
+.image img{
+
+    width:5%;
+}
+.button{
+    background-color: darkturquoise;
+}
+.name{
+    color:yellow;
+}
+.flex{
+    display: flex;
+justify-content: center;
+}

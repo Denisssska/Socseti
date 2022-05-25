@@ -6,7 +6,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {News} from "./components/news/news";
 import {Music} from "./components/music/music";
 import {Settings} from "./components/settings/settings";
-import {Friends} from "./components/friends/friends";
+import {FriendsContainer} from "./components/friends/friendsContainer";
 import {ContentInfoContainer} from "./components/profile/myposts/contentinfo/ContentInfoContainer";
 import {DialogsContainer} from "./components/dialogs/dialogsContainer";
 
@@ -16,18 +16,14 @@ const App = () => {
             <div className='app-wrapper'>
                 <Header/>
                 <Navbar/>
-                <div className='app-wrapper-all' style={{
-                    backgroundImage: `url("https://kartinkin.net/uploads/posts/2021-07/thumbs/1625579398_18-kartinkin-com-p-svyaz-fon-krasivie-foni-19.jpg")`,
-                    backgroundRepeat:'no-repeat',
-
-                }}>
+                <div className='app-wrapper-all'>
                     <Routes>
                         <Route path={'/content/*'} element={<ContentInfoContainer/>}/>
                         <Route path={'/dialogs/*'} element={<DialogsContainer/>}/>
                         <Route path={'/news/*'} element={<News/>}/>
                         <Route path={'/music/*'} element={<Music/>}/>
                         <Route path={'/settings/*'} element={<Settings/>}/>
-                        <Route path={'/friends/*'} element={<Friends />}/>
+                        <Route path={'/friends/*'} element={<FriendsContainer/>}/>
                     </Routes>
                 </div>
             </div>

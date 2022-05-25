@@ -4,7 +4,8 @@
     grid-area: nav;
     background-color: aliceblue;
     box-shadow: 10px 5px 5px darkslategrey;
-
+    background-image: url(https://kartinkin.net/uploads/posts/2021-07/thumbs/1625579398_18-kartinkin-com-p-svyaz-fon-krasivie-foni-19.jpg);
+    background-repeat:no-repeat;
 }
 .nav a{
     font-weight: bold;

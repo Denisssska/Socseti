@@ -10,8 +10,7 @@ type PostObjType = {
 export const Post = (props: PostObjType) => {
     return (
             <div className={c.posts} style={{
-                backgroundImage: `url("https://oir.mobi/uploads/posts/2021-01/1611947019_16-p-krasivii-igrovoi-fon-dlya-fotoshopa-16.jpg")`,
-                backgroundRepeat:'no-repeat',
+
 
             }}>
                 <div>
