@@ -1,16 +1,18 @@
 import reportWebVitals from './reportWebVitals';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import React from 'react';
 import store from "./reduxe/redux-store";
 import {Provider} from "react-redux";
-    ReactDOM.render(
 
-            <Provider store={store}>
-            <App/>
-            </Provider>,
+const root = ReactDOM.createRoot(
+    document.getElementById('root') as HTMLElement
+);
+root.render(
+    <Provider store={store}>
 
-        document.getElementById('root')
-    );
+        <App/>
 
+    </Provider>
+);
 reportWebVitals();

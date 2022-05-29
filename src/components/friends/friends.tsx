@@ -6,46 +6,45 @@ import axios from 'axios';
 import userPhoto from '../../images/userPhoto.png';
 
 export type FriendsType = {
-    users: UsersType[]
+    readonly users: UsersType[]
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UsersType[]) => void
 }
-// const instance = axios.get({
-//     withCredentials: true,
-//     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-//     headers:     {
-//         "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-//     }
-// });
-export const Friends: React.FC<FriendsType> = ({users, follow, unfollow, setUsers}) => {
-
-
-    if (users.length === 0) {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-            setUsers(response.data.items)
-            console.log(response.data.items)
-        })
+const instance = axios.create({
+    withCredentials: true,
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    headers: {
+        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
     }
+});
 
-    return <div>
-        {users.map(item =>
-            <div key={item.id} className={c.flex}>
-                <div className={c.image}>
-                    {/*<img src={item.Photos.small != null? item.Photos.small: userPhoto} alt="photo"/>*/}
-                    <img src={userPhoto} alt={'ph'}/>
+class FriendsSecret extends React.Component<FriendsType> {
+    constructor(props: FriendsType) {
+        super(props);
+        instance.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+            this.props.setUsers(response.data.items)
+        });
+    }
+    render() {
+        return <div>
+            {this.props.users.map(item =>
+                <div key={item.id}>
+                    <div className={c.image}>
+                        <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
+                        {item.followed ?
+                            <Unybutton callback={() => this.props.unfollow(item.id)} className={c.button}
+                                       name={'follow'}/> :
+                            <Unybutton callback={() => this.props.follow(item.id)} className={c.button}
+                                       name={'unfollow'}/>
+                        }
+                        <div className={c.name}>{item.name}</div>
+                        <div className={c.name}>{item.status}</div>
+                    </div>
                 </div>
-                <div>
-                    {item.followed ?
-                        <Unybutton callback={() => unfollow(item.id)} className={c.button} name={'follow'}/> :
-                        <Unybutton callback={() => follow(item.id)} className={c.button} name={'unfollow'}/>
-                    }
-                    <div className={c.name}>{item.name}</div>
-                    <div className={c.name}>{item.status}</div>
-                </div>
-            </div>
-        )}
-    </div>
-
+            )}
+        </div>
+    }
 }
-// export const Friends = React.memo(FriendsSecret)
+
+export const Friends = React.memo(FriendsSecret)

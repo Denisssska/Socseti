@@ -4,8 +4,8 @@ type ActionsType =
     ReturnType<typeof setAC>;
 
 type PhotosType = {
-    small: null
-    large: null
+    small: string
+    large: string
 }
 export type UsersType = {
     id: number
@@ -13,7 +13,7 @@ export type UsersType = {
     name: string
     followed: boolean
     status: string
-    Photos: PhotosType
+    photos: PhotosType
 }
 export type InitialStateUsersType = typeof initialStateUsers
 const FOLLOW = 'FOLLOW';
