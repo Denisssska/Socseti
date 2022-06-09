@@ -43,13 +43,7 @@ const FriendsSecret: React.FC<FriendsType> = (props) => {
                         <Unybutton className={c.button}
                                    name={'follow'}
                                    callback={() => {
-                                       instance.delete(`https://social-network.samuraijs.com/api/1.0/follow=${item.id}`,
-                                           {
-                                               withCredentials: true,
-                                               headers: {
-                                                   "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-                                               }
-                                           })
+                                       instance.delete(`follow/${item.id}`)
                                            .then(response => {
                                                if (response.data.resultCode === 0) {
                                                    props.unfollow(item.id)
@@ -59,13 +53,7 @@ const FriendsSecret: React.FC<FriendsType> = (props) => {
 
                         /> :
                         <Unybutton callback={() => {
-                            instance.post(`https://social-network.samuraijs.com/api/1.0/follow=${item.id}`, {},
-                                {
-                                    withCredentials: true,
-                                    headers: {
-                                        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-                                    }
-                                })
+                            instance.post(`follow/${item.id}`)
                                 .then(response => {
                                     if (response.data.resultCode === 0) {
                                         props.follow(item.id)

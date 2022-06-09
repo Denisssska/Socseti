@@ -18,12 +18,7 @@ type MapDispatchToPropsType = {
 
 class AuthHeader extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
     componentDidMount() {
-        instance.get(`https://social-network.samuraijs.com/api/1.0/auth/me`,{
-            withCredentials:true,
-            headers: {
-                "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-            }
-            })
+        instance.get(`auth/me`)
             .then(response => {
             if(response.data.resultCode===0){
                 this.props.setIsAuth(true)

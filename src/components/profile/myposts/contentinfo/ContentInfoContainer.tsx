@@ -49,12 +49,7 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
         if (!userId) {
             userId = '2'
         }
-        instance.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`,
-            {withCredentials:true,
-                headers: {
-                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-                }
-            }).then(response => {
+        instance.get(`profile/${userId}`).then(response => {
             this.props.setProfileUsers(response.data)
         });
     }
