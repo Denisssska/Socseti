@@ -2,10 +2,10 @@ import {
     addPostText,
     changePost,
     ProfileObjType, ProfileUsersType, setProfileUsers
-} from "../../../../reduxe/Content-reducer";
+} from "../../../../redux/Content-reducer";
 import {connect} from "react-redux";
 import {ContentInfo} from "./contentinfo";
-import {StateAppType} from "../../../../reduxe/redux-store";
+import {StateAppType} from "../../../../redux/redux-store";
 import React from "react";
 import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction} from "react-router-dom";
 import {instance} from "../../../friends/friendsContainer";
@@ -49,7 +49,12 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
         if (!userId) {
             userId = '2'
         }
-        instance.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(response => {
+        instance.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`,
+            {withCredentials:true,
+                headers: {
+                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
+                }
+            }).then(response => {
             this.props.setProfileUsers(response.data)
         });
     }

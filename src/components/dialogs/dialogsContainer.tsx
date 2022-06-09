@@ -5,9 +5,9 @@ import {
     changePostActionCreater,
     DialogDataType
 
-} from "../../reduxe/dialogs-reducer";
+} from "../../redux/dialogs-reducer";
 import {Dispatch} from "redux";
-import {StateAppType} from "../../reduxe/redux-store";
+import {StateAppType} from "../../redux/redux-store";
 
 
 type MapStatePropsType = {

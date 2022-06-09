@@ -1,9 +1,10 @@
 import React from 'react';
 import c from './friends.module.css';
-import {UsersType} from "../../reduxe/friendsReducer";
+import {UsersType} from "../../redux/friendsReducer";
 import {Unybutton} from "../profile/unybutton";
 import userPhoto from '../../images/userPhoto.png';
 import {NavLink} from "react-router-dom";
+import {instance} from "./friendsContainer";
 
 export type FriendsType = {
     users: UsersType[]
@@ -35,13 +36,42 @@ const FriendsSecret: React.FC<FriendsType> = (props) => {
         {props.users.map(item =>
             <div key={item.id}>
                 <div className={c.image}>
-                   <NavLink to={'/content/' + item.id}>
-                    <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
-                   </NavLink>
+                    <NavLink to={'/content/' + item.id}>
+                        <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
+                    </NavLink>
                     {item.followed ?
-                        <Unybutton callback={() => props.unfollow(item.id)} className={c.button}
-                                   name={'follow'}/> :
-                        <Unybutton callback={() => props.follow(item.id)} className={c.button}
+                        <Unybutton className={c.button}
+                                   name={'follow'}
+                                   callback={() => {
+                                       instance.delete(`https://social-network.samuraijs.com/api/1.0/follow=${item.id}`,
+                                           {
+                                               withCredentials: true,
+                                               headers: {
+                                                   "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
+                                               }
+                                           })
+                                           .then(response => {
+                                               if (response.data.resultCode === 0) {
+                                                   props.unfollow(item.id)
+                                               }
+                                           })
+                                   }}
+
+                        /> :
+                        <Unybutton callback={() => {
+                            instance.post(`https://social-network.samuraijs.com/api/1.0/follow=${item.id}`, {},
+                                {
+                                    withCredentials: true,
+                                    headers: {
+                                        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
+                                    }
+                                })
+                                .then(response => {
+                                    if (response.data.resultCode === 0) {
+                                        props.follow(item.id)
+                                    }
+                                })
+                        }} className={c.button}
                                    name={'unfollow'}/>
                     }
                     <div className={c.name}>{item.name}</div>

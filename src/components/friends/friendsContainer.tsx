@@ -6,8 +6,8 @@ import {
     setUserTotalCount,
     unfollow,
     UsersType
-} from "../../reduxe/friendsReducer";
-import {StateAppType} from "../../reduxe/redux-store";
+} from "../../redux/friendsReducer";
+import {StateAppType} from "../../redux/redux-store";
 
 import axios from "axios";
 import React from "react";
@@ -55,20 +55,33 @@ export const instance = axios.create({
 class FriendsAPI extends React.Component<FriendsAPIType> {
     componentDidMount = () => {
         this.props.setIsFetching(true)
-        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(response.data.items)
-            this.props.setUserTotalCount(response.data.totalCount)
-        });
+        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+            {withCredentials: true,
+                headers: {
+                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
+                }
+            })
+            .then(response => {
+                this.props.setIsFetching(false)
+                this.props.setUsers(response.data.items)
+                this.props.setUserTotalCount(response.data.totalCount)
+            });
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(response.data.items)
-        });
+        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+            {
+                withCredentials: true,
+                headers: {
+                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
+                }
+            })
+            .then(response => {
+                this.props.setIsFetching(false)
+                this.props.setUsers(response.data.items)
+            });
     }
 
     render() {
@@ -77,18 +90,11 @@ class FriendsAPI extends React.Component<FriendsAPIType> {
             {this.props.isFetching ? <Preloader/> : null}
             <Friends
                 onPageChanged={this.onPageChanged}
-                currentPage={this.props.currentPage}
-                follow={this.props.follow}
-                pageSize={this.props.pageSize}
-                setCurrentPage={this.props.setCurrentPage}
-                setUserTotalCount={this.props.setUserTotalCount}
-                setUsers={this.props.setUsers}
-                totalCount={this.props.totalCount}
-                unfollow={this.props.unfollow}
-                users={this.props.users}/>
+                {...this.props}/>
         </div>
     }
 }
+
 let mapStateToProps = (state: StateAppType): MapStatePropsType => {
     return {
         users: state.users.users,

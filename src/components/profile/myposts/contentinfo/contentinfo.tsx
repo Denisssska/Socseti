@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import c from '../../content.module.css'
 import {Unybutton} from "../../unybutton";
 import {Post} from "../post/post";
-import {ProfileObjType, ProfileUsersType} from "../../../../reduxe/Content-reducer";
+import {ProfileObjType, ProfileUsersType} from "../../../../redux/Content-reducer";
 import {Preloader} from "../../../preloader/Preloader";
 
 type ContentInfoType = {

@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import c from './dialogs.module.css';
 import {Dialog} from "./dialog/dialog";
 import {Unybutton} from "../profile/unybutton";
-import {DialogDataType} from "../../reduxe/dialogs-reducer";
+import {DialogDataType} from "../../redux/dialogs-reducer";
 
 
 
