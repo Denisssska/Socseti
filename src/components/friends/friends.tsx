@@ -2,49 +2,55 @@ import React from 'react';
 import c from './friends.module.css';
 import {UsersType} from "../../reduxe/friendsReducer";
 import {Unybutton} from "../profile/unybutton";
-import axios from 'axios';
 import userPhoto from '../../images/userPhoto.png';
+import {NavLink} from "react-router-dom";
 
 export type FriendsType = {
-    readonly users: UsersType[]
+    users: UsersType[]
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UsersType[]) => void
+    setCurrentPage: (currentPage: number) => void
+    setUserTotalCount: (totalCount: number) => void
+    pageSize: number
+    currentPage: number
+    totalCount: number
+    onPageChanged: (item: number) => void
 }
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {
-        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-    }
-});
 
-class FriendsSecret extends React.Component<FriendsType> {
-    constructor(props: FriendsType) {
-        super(props);
-        instance.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-            this.props.setUsers(response.data.items)
-        });
+const FriendsSecret: React.FC<FriendsType> = (props) => {
+
+    let pagesCount = Math.ceil(props.totalCount / props.pageSize / 100)
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
-    render() {
-        return <div>
-            {this.props.users.map(item =>
-                <div key={item.id}>
-                    <div className={c.image}>
-                        <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
-                        {item.followed ?
-                            <Unybutton callback={() => this.props.unfollow(item.id)} className={c.button}
-                                       name={'follow'}/> :
-                            <Unybutton callback={() => this.props.follow(item.id)} className={c.button}
-                                       name={'unfollow'}/>
-                        }
-                        <div className={c.name}>{item.name}</div>
-                        <div className={c.name}>{item.status}</div>
-                    </div>
-                </div>
-            )}
+    return <div>
+        <div>
+            {pages.map((item, id) => {
+                return <span key={id} onClick={() => props.onPageChanged(item)}
+                             className={props.currentPage === item ? c.selectedPage : ''}>{item}</span>
+            })}
         </div>
-    }
+        {props.users.map(item =>
+            <div key={item.id}>
+                <div className={c.image}>
+                   <NavLink to={'/content/' + item.id}>
+                    <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
+                   </NavLink>
+                    {item.followed ?
+                        <Unybutton callback={() => props.unfollow(item.id)} className={c.button}
+                                   name={'follow'}/> :
+                        <Unybutton callback={() => props.follow(item.id)} className={c.button}
+                                   name={'unfollow'}/>
+                    }
+                    <div className={c.name}>{item.name}</div>
+                    <div className={c.name}>{item.status}</div>
+                </div>
+            </div>
+        )}
+    </div>
 }
+
 
 export const Friends = React.memo(FriendsSecret)
