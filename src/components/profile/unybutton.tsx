@@ -4,6 +4,7 @@ type ButtonType ={
     name:string,
     callback:()=>void
     className:string
+    disabled?:boolean
 }
 export const Unybutton =(props:ButtonType)=>{
     const OnclickFun = ()=>{
@@ -12,7 +13,7 @@ export const Unybutton =(props:ButtonType)=>{
     }
     return(
         <div>
-            <button className={props.className} onClick={OnclickFun}>{props.name}</button>
+            <button disabled={props.disabled} className={props.className} onClick={OnclickFun}>{props.name}</button>
         </div>
     )
 }

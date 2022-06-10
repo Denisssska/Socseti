@@ -4,7 +4,8 @@ import {UsersType} from "../../redux/friendsReducer";
 import {Unybutton} from "../profile/unybutton";
 import userPhoto from '../../images/userPhoto.png';
 import {NavLink} from "react-router-dom";
-import {instance} from "./friendsContainer";
+import {userAPI} from "../../API/APIInstance";
+
 
 export type FriendsType = {
     users: UsersType[]
@@ -17,6 +18,8 @@ export type FriendsType = {
     currentPage: number
     totalCount: number
     onPageChanged: (item: number) => void
+    setInProgress:(isFetching:boolean,userId:number)=>void
+    inProgress:number[]
 }
 
 const FriendsSecret: React.FC<FriendsType> = (props) => {
@@ -40,24 +43,28 @@ const FriendsSecret: React.FC<FriendsType> = (props) => {
                         <img src={item.photos.small != null ? item.photos.small : userPhoto} alt={'ggg'}/>
                     </NavLink>
                     {item.followed ?
-                        <Unybutton className={c.button}
+                        <Unybutton disabled={props.inProgress.some(id=>id === item.id)} className={c.button}
                                    name={'follow'}
                                    callback={() => {
-                                       instance.delete(`follow/${item.id}`)
-                                           .then(response => {
-                                               if (response.data.resultCode === 0) {
+                                       props.setInProgress(true,item.id)
+                                       userAPI.deleteUser(item.id)
+                                           .then((data: { resultCode: number; }) => {
+                                               if (data.resultCode === 0) {
                                                    props.unfollow(item.id)
                                                }
+                                               props.setInProgress(false,item.id)
                                            })
                                    }}
-
                         /> :
-                        <Unybutton callback={() => {
-                            instance.post(`follow/${item.id}`)
-                                .then(response => {
-                                    if (response.data.resultCode === 0) {
+                        <Unybutton disabled={props.inProgress.some(id=>id === item.id)} callback={() => {
+                            props.setInProgress(true,item.id)
+                            userAPI.postUser(item.id)
+                                .then((data: { resultCode: number; }) => {
+                                    if (data.resultCode === 0) {
                                         props.follow(item.id)
                                     }
+                                    props.setInProgress(false,item.id)
+
                                 })
                         }} className={c.button}
                                    name={'unfollow'}/>

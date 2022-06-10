@@ -8,16 +8,17 @@ import {ContentInfo} from "./contentinfo";
 import {StateAppType} from "../../../../redux/redux-store";
 import React from "react";
 import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction} from "react-router-dom";
-import {instance} from "../../../friends/friendsContainer";
+import {userAPI} from "../../../../API/APIInstance";
 
-export type ContentInfoAPIType = mapStateToProps & mapDispatchToProps;
+
+export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
 
 type ParamsType = {
     params: Readonly<Params>
     location: Location
     navigate:Readonly<NavigateFunction>
 }
-type mapStateToProps = {
+type mapStateToPropsTypes = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
@@ -49,11 +50,11 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
         if (!userId) {
             userId = '2'
         }
-        instance.get(`profile/${userId}`).then(response => {
-            this.props.setProfileUsers(response.data)
+            userAPI.getProfile(userId)
+            .then((data: ProfileUsersType) => {
+            this.props.setProfileUsers(data)
         });
     }
-
     render() {
         return <div>
             <ContentInfo {...this.props}
@@ -62,7 +63,7 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
     }
 }
 
-const mapStateToProps = (state: StateAppType): mapStateToProps => {
+const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
     return {
         newMessageFromPost: state.profile.newMessageFromPost,
         profileObj: state.profile.profileObj,

@@ -5,15 +5,13 @@ import {
     setCurrentPage, setIsFetching,
     setUserTotalCount,
     unfollow,
-    UsersType
+    UsersType, setInProgress
 } from "../../redux/friendsReducer";
 import {StateAppType} from "../../redux/redux-store";
-
-import axios from "axios";
 import React from "react";
-
 import {Friends} from "./friends";
 import {Preloader} from "../preloader/Preloader";
+import {userAPI} from "../../API/APIInstance";
 
 type MapStatePropsType = {
     users: UsersType[]
@@ -21,66 +19,53 @@ type MapStatePropsType = {
     totalCount: number
     pageSize: number
     isFetching: boolean
+    inProgress:number[]
 }
-// type MapDispatchPropsType = {
-//     follow: (userId: number) => void
-//     unfollow: (userId: number) => void
-//     setUsers: (users: UsersType[]) => void
-//     setCurrentPage: (currentPage: number) => void
-//     setUserTotalCount: (totalCount: number) => void
-//     setIsFetching: (isFetching: boolean) => void
-// }
-
-export type FriendsAPIType = {
-    users: UsersType[]
+type MapDispatchPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UsersType[]) => void
     setCurrentPage: (currentPage: number) => void
     setUserTotalCount: (totalCount: number) => void
-    pageSize: number
-    currentPage: number
-    totalCount: number
-    isFetching: boolean
     setIsFetching: (isFetching: boolean) => void
+    setInProgress:(isFetching:boolean,userId:number)=>void
 }
-export const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {
-        "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-    }
-});
+
+export type FriendsAPIType = MapStatePropsType & MapDispatchPropsType
+//     {
+//     users: UsersType[]
+//     follow: (userId: number) => void
+//     unfollow: (userId: number) => void
+//     setUsers: (users: UsersType[]) => void
+//     setCurrentPage: (currentPage: number) => void
+//     setUserTotalCount: (totalCount: number) => void
+//     pageSize: number
+//     currentPage: number
+//     totalCount: number
+//     isFetching: boolean
+//     setIsFetching: (isFetching: boolean) => void
+// }
+
 
 class FriendsAPI extends React.Component<FriendsAPIType> {
     componentDidMount = () => {
         this.props.setIsFetching(true)
-        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-            {withCredentials: true,
-                headers: {
-                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-                }
-            })
-            .then(response => {
+
+        userAPI.getPage(this.props.currentPage, this.props.pageSize)
+            .then((data: { items: UsersType[]; totalCount: number; }) => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
-                this.props.setUserTotalCount(response.data.totalCount)
+                this.props.setUsers(data.items)
+                this.props.setUserTotalCount(data.totalCount)
             });
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
-            {
-                withCredentials: true,
-                headers: {
-                    "API-KEY": '4ecfeb70-7dff-4183-b8c3-af65f71d42cf'
-                }
-            })
-            .then(response => {
+        userAPI.getPage(pageNumber, this.props.pageSize)
+            .then(data => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(data.items)
             });
     }
 
@@ -102,6 +87,7 @@ let mapStateToProps = (state: StateAppType): MapStatePropsType => {
         totalCount: state.users.totalCount,
         pageSize: state.users.pageSize,
         isFetching: state.users.isFetching,
+        inProgress:state.users.inProgress
     }
 }
 // let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
@@ -133,6 +119,7 @@ export const FriendsContainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setUserTotalCount,
-    setIsFetching
+    setIsFetching,
+    setInProgress
 })(FriendsAPI)
 

@@ -4,7 +4,8 @@ type ActionsType =
     ReturnType<typeof setUsers> |
     ReturnType<typeof setCurrentPage> |
     ReturnType<typeof setUserTotalCount>|
-    ReturnType<typeof setIsFetching>;
+    ReturnType<typeof setIsFetching>|
+    ReturnType<typeof setInProgress>;
 
 type PhotosType = {
     small: string
@@ -25,6 +26,7 @@ const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
 const CHANGE_IS_FETCHING = 'CHANGE_IS_FETCHING';
+const SET_IN_PROGRESS = 'SET_IN_PROGRESS';
 
 export const follow = (userId: number) => ({type: FOLLOW, userId}) as const
 export const unfollow = (userId: number) => ({type: UNFOLLOW, userId}) as const
@@ -32,6 +34,7 @@ export const setUsers = (users: UsersType[]) => ({type: SET_USERS, users}) as co
 export const setCurrentPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage}) as const
 export const setUserTotalCount = (totalCount: number) => ({type: SET_TOTAL_COUNT, totalCount}) as const
 export const setIsFetching = (isFetching: boolean) => ({type: CHANGE_IS_FETCHING, isFetching}) as const
+export const setInProgress = (isFetching:boolean,userId:number) => ({type: SET_IN_PROGRESS, isFetching,userId}) as const
 
 
 let initialStateUsers = {
@@ -41,6 +44,7 @@ let initialStateUsers = {
     totalCount: 19280,
     error: null,
     isFetching:true,
+    inProgress:[] as number[]
 
 }
 
@@ -65,6 +69,10 @@ const friendsReducer = (state: InitialStateUsersType = initialStateUsers, action
             return {...state, totalCount: action.totalCount}
         case CHANGE_IS_FETCHING:
             return {...state,isFetching: action.isFetching}
+        case SET_IN_PROGRESS:
+          return {...state,
+          inProgress: action.isFetching?[...state.inProgress,action.userId]:state.inProgress.filter(id=> id !== action.userId)}
+
         default:
             return state
     }
