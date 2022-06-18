@@ -1,9 +1,9 @@
-import { combineReducers, legacy_createStore} from "redux";
+import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import contentReducer from "./Content-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import friendsReducer from "./friendsReducer";
 import authReducer from "./authReducer";
-
+import  thunk  from "redux-thunk";
 
 
 export type StoreType= typeof legacy_createStore;
@@ -15,7 +15,7 @@ let reducersBox = combineReducers({
     auth:authReducer
 })
 
-let store = legacy_createStore(reducersBox)
+let store = legacy_createStore(reducersBox,applyMiddleware(thunk))
 
 
 export default store

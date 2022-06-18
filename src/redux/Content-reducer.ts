@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-
+import {userAPI} from "../API/APIInstance";
 
 const ADD_POST = "ADD-POST";
 const CHANGE_FROM_POST = 'CHANGE-FROM-POST';
@@ -72,5 +72,11 @@ const contentReducer = (state: InitialStateProfileType = initialStateProfile, ac
         default:
             return state
     }
+}
+export const getProfileTC=(userId:string|undefined)=>(dispatch:any)=>{
+    userAPI.getProfile(userId)
+        .then((data: ProfileUsersType) => {
+            dispatch(setProfileUsers(data))
+        });
 }
 export default contentReducer

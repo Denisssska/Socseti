@@ -1,14 +1,13 @@
 import {
     addPostText,
-    changePost,
-    ProfileObjType, ProfileUsersType, setProfileUsers
+    changePost, getProfileTC,
+    ProfileObjType, ProfileUsersType
 } from "../../../../redux/Content-reducer";
 import {connect} from "react-redux";
 import {ContentInfo} from "./contentinfo";
 import {StateAppType} from "../../../../redux/redux-store";
 import React from "react";
 import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction} from "react-router-dom";
-import {userAPI} from "../../../../API/APIInstance";
 
 
 export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
@@ -16,7 +15,7 @@ export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
 type ParamsType = {
     params: Readonly<Params>
     location: Location
-    navigate:Readonly<NavigateFunction>
+    navigate: Readonly<NavigateFunction>
 }
 type mapStateToPropsTypes = {
     newMessageFromPost: string
@@ -26,7 +25,8 @@ type mapStateToPropsTypes = {
 type mapDispatchToProps = {
     addPostText: () => void
     changePost: (newText: string) => void
-    setProfileUsers: (profileUsers: ProfileUsersType) => void
+
+    getProfileTC: (userId: string | undefined) => void
 }
 
 const withRouter = () => (props: ContentInfoAPIType) => {
@@ -50,11 +50,10 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
         if (!userId) {
             userId = '2'
         }
-            userAPI.getProfile(userId)
-            .then((data: ProfileUsersType) => {
-            this.props.setProfileUsers(data)
-        });
+        this.props.getProfileTC(userId)
+
     }
+
     render() {
         return <div>
             <ContentInfo {...this.props}
@@ -73,5 +72,5 @@ const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
 export const ContentInfoContainer = connect(mapStateToProps, {
     addPostText,
     changePost,
-    setProfileUsers,
+    getProfileTC
 })(withRouter())

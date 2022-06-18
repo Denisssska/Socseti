@@ -1,17 +1,12 @@
 import {connect} from "react-redux";
 import {
-    follow,
-    setUsers,
-    setCurrentPage, setIsFetching,
-    setUserTotalCount,
-    unfollow,
-    UsersType, setInProgress
+    setCurrentPage,
+    UsersType, getPageTC, followTC, unFollowTC
 } from "../../redux/friendsReducer";
 import {StateAppType} from "../../redux/redux-store";
 import React from "react";
 import {Friends} from "./friends";
 import {Preloader} from "../preloader/Preloader";
-import {userAPI} from "../../API/APIInstance";
 
 type MapStatePropsType = {
     users: UsersType[]
@@ -19,54 +14,25 @@ type MapStatePropsType = {
     totalCount: number
     pageSize: number
     isFetching: boolean
-    inProgress:number[]
+    inProgress: number[]
 }
 type MapDispatchPropsType = {
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    setUsers: (users: UsersType[]) => void
     setCurrentPage: (currentPage: number) => void
-    setUserTotalCount: (totalCount: number) => void
-    setIsFetching: (isFetching: boolean) => void
-    setInProgress:(isFetching:boolean,userId:number)=>void
+    getPageTC: (currentPage: number, pageSize: number) => void
+    followTC: (userId: number) => void
+    unFollowTC: (userId: number) => void
 }
 
 export type FriendsAPIType = MapStatePropsType & MapDispatchPropsType
-//     {
-//     users: UsersType[]
-//     follow: (userId: number) => void
-//     unfollow: (userId: number) => void
-//     setUsers: (users: UsersType[]) => void
-//     setCurrentPage: (currentPage: number) => void
-//     setUserTotalCount: (totalCount: number) => void
-//     pageSize: number
-//     currentPage: number
-//     totalCount: number
-//     isFetching: boolean
-//     setIsFetching: (isFetching: boolean) => void
-// }
-
 
 class FriendsAPI extends React.Component<FriendsAPIType> {
     componentDidMount = () => {
-        this.props.setIsFetching(true)
-
-        userAPI.getPage(this.props.currentPage, this.props.pageSize)
-            .then((data: { items: UsersType[]; totalCount: number; }) => {
-                this.props.setIsFetching(false)
-                this.props.setUsers(data.items)
-                this.props.setUserTotalCount(data.totalCount)
-            });
+        this.props.getPageTC(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        userAPI.getPage(pageNumber, this.props.pageSize)
-            .then(data => {
-                this.props.setIsFetching(false)
-                this.props.setUsers(data.items)
-            });
+        this.props.getPageTC(pageNumber, this.props.pageSize)
     }
 
     render() {
@@ -87,9 +53,17 @@ let mapStateToProps = (state: StateAppType): MapStatePropsType => {
         totalCount: state.users.totalCount,
         pageSize: state.users.pageSize,
         isFetching: state.users.isFetching,
-        inProgress:state.users.inProgress
+        inProgress: state.users.inProgress
     }
 }
+export const FriendsContainer = connect(mapStateToProps, {
+    setCurrentPage,
+    getPageTC,
+    followTC,
+    unFollowTC
+})(FriendsAPI)
+
+
 // let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 //     return {
 //         follow: (userId: number) => {
@@ -112,14 +86,3 @@ let mapStateToProps = (state: StateAppType): MapStatePropsType => {
 //         }
 //     }
 // }
-
-export const FriendsContainer = connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setUsers,
-    setCurrentPage,
-    setUserTotalCount,
-    setIsFetching,
-    setInProgress
-})(FriendsAPI)
-
