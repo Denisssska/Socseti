@@ -4,6 +4,7 @@ import React from "react";
 import {StateAppType} from "../../redux/redux-store";
 import {DataType, getAuthTC} from "../../redux/authReducer";
 
+
 type MapStateToPropsType = {
     data: DataType
     isAuth: boolean
@@ -17,6 +18,7 @@ class AuthHeader extends React.Component<MapStateToPropsType & MapDispatchToProp
         this.props.getAuthTC()
     }
     render() {
+
         return (
             <Header  {...this.props}/>
         )
@@ -29,4 +31,5 @@ const mapStateToProps = (state: StateAppType): MapStateToPropsType => {
         isAuth: state.auth.isAuth
     }
 }
+
 export const HeaderContainer = connect(mapStateToProps, {getAuthTC})(AuthHeader)

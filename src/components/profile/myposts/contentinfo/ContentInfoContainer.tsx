@@ -8,6 +8,8 @@ import {ContentInfo} from "./contentinfo";
 import {StateAppType} from "../../../../redux/redux-store";
 import React from "react";
 import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction} from "react-router-dom";
+import {withAuthRedirect} from "../../../HOC/WithAuthRedirect";
+import {compose} from "redux";
 
 
 export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
@@ -21,11 +23,11 @@ type mapStateToPropsTypes = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
+
 }
 type mapDispatchToProps = {
     addPostText: () => void
     changePost: (newText: string) => void
-
     getProfileTC: (userId: string | undefined) => void
 }
 
@@ -66,11 +68,21 @@ const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
     return {
         newMessageFromPost: state.profile.newMessageFromPost,
         profileObj: state.profile.profileObj,
-        profileUsers: state.profile.profileUsers
+        profileUsers: state.profile.profileUsers,
+
     }
 }
-export const ContentInfoContainer = connect(mapStateToProps, {
-    addPostText,
-    changePost,
-    getProfileTC
-})(withRouter())
+export const ContentInfoContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps, {
+        addPostText,
+        changePost,
+        getProfileTC
+    }),
+    withRouter
+)(ContentInfoAPI)
+// export const ContentInfoContainer = withAuthRedirect(connect(mapStateToProps, {
+//     addPostText,
+//     changePost,
+//     getProfileTC
+// })(withRouter()))

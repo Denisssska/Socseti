@@ -7,17 +7,20 @@ import {DialogDataType} from "../../redux/dialogs-reducer";
 
 
 
+
 export type DialogsDataType = {
     dialogData: Array<DialogDataType>
     addPost: () => void
     changeFromPost: (value:string) => void
     newMessageFromDialog: string
+    isAuth:boolean
 }
 
  const DialogsSecret: React.FC<DialogsDataType> = ({newMessageFromDialog,
                                                        dialogData,
                                                        addPost,
-                                                       changeFromPost}) => {
+                                                       changeFromPost,
+                                                  }) => {
 
     const addPostDialog = () => {
         addPost()
@@ -26,6 +29,7 @@ export type DialogsDataType = {
         changeFromPost(event.currentTarget.value)
     }
     let dialogArr = dialogData.map((item) => <Dialog key={item.id} message={item.message} id={item.id} name={item.name}/>)
+
     return (
         <div className={c.dialogs}>
             <div className={c.dialogsName}>

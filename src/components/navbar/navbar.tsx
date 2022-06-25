@@ -9,6 +9,7 @@ export const Navbar = ()=>{
             <div>
                 <NavLink to='/content'>Content</NavLink>
             </div>
+
             <div>
                 <NavLink  className={({ isActive }) =>(isActive ? " active" : "")} to='/dialogs'>Dialogs</NavLink>
             </div>

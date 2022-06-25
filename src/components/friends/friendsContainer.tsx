@@ -7,6 +7,9 @@ import {StateAppType} from "../../redux/redux-store";
 import React from "react";
 import {Friends} from "./friends";
 import {Preloader} from "../preloader/Preloader";
+import {withAuthRedirect} from "../HOC/WithAuthRedirect";
+import {compose} from "redux";
+
 
 type MapStatePropsType = {
     users: UsersType[]
@@ -15,6 +18,7 @@ type MapStatePropsType = {
     pageSize: number
     isFetching: boolean
     inProgress: number[]
+
 }
 type MapDispatchPropsType = {
     setCurrentPage: (currentPage: number) => void
@@ -46,6 +50,8 @@ class FriendsAPI extends React.Component<FriendsAPIType> {
     }
 }
 
+// let AuthRedirectComponent = withAuthRedirect(FriendsAPI)
+
 let mapStateToProps = (state: StateAppType): MapStatePropsType => {
     return {
         users: state.users.users,
@@ -53,16 +59,24 @@ let mapStateToProps = (state: StateAppType): MapStatePropsType => {
         totalCount: state.users.totalCount,
         pageSize: state.users.pageSize,
         isFetching: state.users.isFetching,
-        inProgress: state.users.inProgress
+        inProgress: state.users.inProgress,
     }
 }
-export const FriendsContainer = connect(mapStateToProps, {
-    setCurrentPage,
-    getPageTC,
-    followTC,
-    unFollowTC
-})(FriendsAPI)
-
+export const FriendsContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps, {
+        setCurrentPage,
+        getPageTC,
+        followTC,
+        unFollowTC
+    })
+)(FriendsAPI)
+// export const FriendsContainer = withAuthRedirect(connect(mapStateToProps, {
+//     setCurrentPage,
+//     getPageTC,
+//     followTC,
+//     unFollowTC
+// })(FriendsAPI))
 
 // let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 //     return {
