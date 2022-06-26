@@ -4,6 +4,7 @@ import {Unybutton} from "../../unybutton";
 
 import {ProfileObjType, ProfileUsersType} from "../../../../redux/Content-reducer";
 import {Preloader} from "../../../preloader/Preloader";
+import {Params} from "react-router-dom";
 
 type ContentInfoType = {
     changePost: (newText: string) => void
@@ -11,34 +12,44 @@ type ContentInfoType = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
-
+    updateProfileStatusTC:(status:string)=>void
+    params:Readonly<Params>
+    status:string
 }
 
 export class ContentInfo extends React.Component<ContentInfoType> {
+
     state = {
-        editMode: true,
-        value:'HI Man'
-
+        editMode: false,
+        value:this.props.status
     }
-
+    onChangeValue=(event:ChangeEvent<HTMLInputElement>)=>{
+        this.setState({
+            value:event.currentTarget.value
+        })
+    }
+componentDidUpdate(prevProps: Readonly<ContentInfoType>, prevState: Readonly<{editMode:boolean,status:string,value:string}>) {
+    console.log(prevState)
+        if(prevProps.status !==this.props.status){
+            this.setState({
+                value:this.props.status
+            })
+        }
+}
     activatedMode=()=> {
-        console.log(this)
         this.setState({
             editMode: !this.state.editMode
         })
     }
 
     deactivatedMode=() =>{
+
         this.setState({
             editMode: !this.state.editMode,
-
         })
+       this.props.updateProfileStatusTC(this.state.value)
     }
-    onChangeValue=(event:ChangeEvent<HTMLInputElement>)=>{
-        this.setState({
-            value:event.currentTarget.value
-        })
-}
+
     addPost() {
         this.props.addPostText()
     }
@@ -70,8 +81,8 @@ export class ContentInfo extends React.Component<ContentInfoType> {
                 </div>
                 <textarea value={this.props.newMessageFromPost} onChange={this.changeFromPost}
                           className={c.textarea}/>
-                { this.state.editMode?<span onDoubleClick={this.activatedMode}>{this.state.value}</span>:
-                    <input value={this.state.value} autoFocus={true} onChange={(event)=>this.onChangeValue(event)}
+                { !this.state.editMode?<span className={c.span} onDoubleClick={this.activatedMode}>{this.props.status || 'No status'}</span>:
+                    <input className={c.input} value={this.state.value} autoFocus={true} onChange={this.onChangeValue}
                     onBlur={this.deactivatedMode}/>}
                 <div>
                     <Unybutton callback={this.addPost.bind(this)} name='Push' className={c.yellow}/>

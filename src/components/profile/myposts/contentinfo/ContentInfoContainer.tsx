@@ -1,7 +1,7 @@
 import {
     addPostText,
-    changePost, getProfileTC,
-    ProfileObjType, ProfileUsersType
+    changePost, getProfileStatusTC, getProfileTC,
+    ProfileObjType, ProfileUsersType, updateProfileStatusTC
 } from "../../../../redux/Content-reducer";
 import {connect} from "react-redux";
 import {ContentInfo} from "./contentinfo";
@@ -23,12 +23,15 @@ type mapStateToPropsTypes = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
-
+    status: string
 }
 type mapDispatchToProps = {
     addPostText: () => void
     changePost: (newText: string) => void
-    getProfileTC: (userId: string | undefined) => void
+    getProfileTC: (userId: string) => void
+    getProfileStatusTC: (userId: string) => void
+    updateProfileStatusTC: (status: string) => void
+
 }
 
 const withRouter = () => (props: ContentInfoAPIType) => {
@@ -50,9 +53,10 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
     componentDidMount = () => {
         let userId: string | undefined = this.props.params.userId;
         if (!userId) {
-            userId = '2'
+            userId = ' 24035'
         }
         this.props.getProfileTC(userId)
+        this.props.getProfileStatusTC(userId)
 
     }
 
@@ -69,7 +73,7 @@ const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
         newMessageFromPost: state.profile.newMessageFromPost,
         profileObj: state.profile.profileObj,
         profileUsers: state.profile.profileUsers,
-
+        status: state.profile.status
     }
 }
 export const ContentInfoContainer = compose<React.ComponentType>(
@@ -77,7 +81,7 @@ export const ContentInfoContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
         addPostText,
         changePost,
-        getProfileTC
+        getProfileTC, getProfileStatusTC, updateProfileStatusTC
     }),
     withRouter
 )(ContentInfoAPI)

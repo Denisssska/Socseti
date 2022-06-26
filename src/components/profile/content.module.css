@@ -18,3 +18,13 @@
     font-size: 20px;
 
 }
+.span{
+    color:darkorange;
+    text-decoration: yellow;
+    font-size: 30px;
+font-weight: normal;
+margin-left: 10%;
+    border: 1px;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px darkturquoise;
+}
