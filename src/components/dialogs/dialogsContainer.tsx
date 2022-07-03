@@ -2,7 +2,6 @@ import {Dialogs} from "./dialogs";
 import {connect} from "react-redux";
 import {
     AddMessageActionCreater,
-    changePostActionCreater,
     DialogDataType
 } from "../../redux/dialogs-reducer";
 import {compose, Dispatch} from "redux";
@@ -18,8 +17,8 @@ type MapStatePropsType = {
 
 }
 type MapDispatchPropsType = {
-    addPost: () => void
-    changeFromPost: (newText: string) => void
+    addPost: (newMessage: string) => void
+
 }
 
 let mapStateToProps = (state: StateAppType): MapStatePropsType => {
@@ -31,14 +30,11 @@ let mapStateToProps = (state: StateAppType): MapStatePropsType => {
 }
 let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
     return {
-        addPost: () => {
-            dispatch(AddMessageActionCreater())
-        },
-        changeFromPost: (newText: string) => {
-            dispatch(changePostActionCreater(newText))
-        }
+        addPost: (newMessage: string) => dispatch(AddMessageActionCreater(newMessage))
     }
 }
+
+
 // let AuthRedirectComponent = withAuthRedirect(Dialogs)
 
 export const DialogsContainer = compose<React.ComponentType>(
@@ -46,3 +42,8 @@ export const DialogsContainer = compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps)
 )(Dialogs)
 // export const DialogsContainer = withAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogs));
+
+//func({a,b, ...props}){
+// return(<{...a}{...props}будут без a,b
+//
+// }

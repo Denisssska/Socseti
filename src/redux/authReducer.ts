@@ -1,4 +1,5 @@
 import {userAPI} from "../API/APIInstance";
+import {Dispatch} from "redux";
 
 type ActionsType =
     ReturnType<typeof setUserData> |
@@ -45,7 +46,7 @@ const authReducer = (state: initialDataStateType = initialDataState, action: Act
             return state
     }
 }
-export const getAuthTC = () => (dispatch: any) => {
+export const getAuthTC = () => (dispatch: Dispatch) => {
     userAPI.getAuth()
         .then((data) => {
             if (data.resultCode === 0) {

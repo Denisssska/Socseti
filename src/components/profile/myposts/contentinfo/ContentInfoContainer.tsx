@@ -24,6 +24,7 @@ type mapStateToPropsTypes = {
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
     status: string
+
 }
 type mapDispatchToProps = {
     addPostText: () => void
@@ -73,7 +74,8 @@ const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
         newMessageFromPost: state.profile.newMessageFromPost,
         profileObj: state.profile.profileObj,
         profileUsers: state.profile.profileUsers,
-        status: state.profile.status
+        status: state.profile.status,
+
     }
 }
 export const ContentInfoContainer = compose<React.ComponentType>(

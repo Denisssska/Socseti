@@ -9,7 +9,8 @@ import {FriendsContainer} from "./components/friends/friendsContainer";
 import {ContentInfoContainer} from "./components/profile/myposts/contentinfo/ContentInfoContainer";
 import {DialogsContainer} from "./components/dialogs/dialogsContainer";
 import {HeaderContainer} from "./components/header/HeaderContainer";
-import {Login} from "./components/login/Login";
+import HookForm from "./components/login/HookForm";
+
 
 
 const App = () => {
@@ -20,10 +21,11 @@ const App = () => {
                 <Navbar/>
                 <div className='app-wrapper-all'>
                     <Routes>
-                        <Route path={'/login/*'} element={<Login/>}/>
+
                         <Route path={'/content/'} element={<ContentInfoContainer/>}>
                             <Route path={'/content/:userId'} element={<ContentInfoContainer/>}/>
                         </Route>
+                        <Route path={'/login/*'} element={<HookForm/>}/>
                         <Route path={'/dialogs/*'} element={<DialogsContainer/>}/>
                         <Route path={'/news/*'} element={<News/>}/>
                         <Route path={'/music/*'} element={<Music/>}/>

@@ -40,7 +40,7 @@ type ActionsType =
     ReturnType<typeof setProfileUserStatus> |
     ReturnType<typeof setProfileUsers>;
 
-export const addPostText = () => ({type: ADD_POST}) as const
+export const addPostText = (aboutMe:string) => ({type: ADD_POST,aboutMe}) as const
 export const setProfileUsers = (profileUsers: ProfileUsersType) => ({type: SET_PROFILE_USERS, profileUsers}) as const
 export const setProfileUserStatus = (status:string) => ({type: SET_PROFILE_USER_STATUS, status}) as const
 
@@ -66,12 +66,7 @@ const contentReducer = (state: InitialStateProfileType = initialStateProfile, ac
             return {...state,status: action.status }
         }
         case ADD_POST:
-            const newPost = {
-                id: v1(),
-                message: state.newMessageFromPost,
-                likes: 10
-            }
-            return {...state, newMessageFromPost: '', profileObj: [...state.profileObj, newPost]}
+            return {...state, profileUsers:{...state.profileUsers,aboutMe:action.aboutMe} }
 
         case CHANGE_FROM_POST:
             return {...state, newMessageFromPost: action.newText}
@@ -101,6 +96,14 @@ export const updateProfileStatusTC=(status:string)=>(dispatch:Dispatch)=>{
                   }
 
           })
+}
+export const updatePropertyDescriptionTC=(aboutMe:string)=>(dispatch:Dispatch)=>{
+      profileAPI.updateJobDescription(aboutMe)
+          .then(res=>{
+              if(res.data.resultCode === 0){
+                    dispatch(addPostText(aboutMe))
+                  }
 
+          })
 }
 export default contentReducer

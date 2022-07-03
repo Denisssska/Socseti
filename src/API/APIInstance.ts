@@ -39,10 +39,13 @@ export const profileAPI ={
     },
     updateProfileStatus(status:string){
         return instance.put(`profile/status`,{status:status})
+    },
+    updateJobDescription(aboutMe:string){
+        return instance.put(`profile`,{aboutMe:aboutMe,lookingForAJobDescription:aboutMe,fullName:'Denis Yarmoshko'})
     }
 }
 export const loginAPI ={
-    autorisedProfile(data:string|boolean){
-        return instance.post(`auth/login`,{data:data})
+    autorisedProfile(email:string,password:string,rememberMe:boolean){
+        return instance.post(`auth/login`,{email,password,rememberMe})
     }
 }
