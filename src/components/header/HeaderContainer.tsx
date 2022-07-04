@@ -1,4 +1,4 @@
-import Header from "./header";
+import {Header} from "./header";
 import {connect} from "react-redux";
 import React from "react";
 import {StateAppType} from "../../redux/redux-store";

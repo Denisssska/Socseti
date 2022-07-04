@@ -1,7 +1,8 @@
 import {userAPI} from "../API/APIInstance";
+import {AppThunk} from "./redux-store";
 
 
-type ActionsType =
+export type ActionsFriendsType =
     ReturnType<typeof follow> |
     ReturnType<typeof unfollow> |
     ReturnType<typeof setUsers> |
@@ -55,7 +56,7 @@ let initialStateUsers = {
 
 }
 
-const friendsReducer = (state: InitialStateUsersType = initialStateUsers, action: ActionsType): InitialStateUsersType => {
+const friendsReducer = (state: InitialStateUsersType = initialStateUsers, action: ActionsFriendsType): InitialStateUsersType => {
 
     switch (action.type) {
         case FOLLOW:
@@ -86,7 +87,7 @@ const friendsReducer = (state: InitialStateUsersType = initialStateUsers, action
     }
 }
 
-export const getPageTC = (currentPage: number, pageSize: number) => (dispatch: any) => {
+export const getPageTC = (currentPage: number, pageSize: number):AppThunk => (dispatch) => {
     dispatch(setIsFetching(true))
     userAPI.getPage(currentPage, pageSize)
         .then((data: { items: UsersType[]; totalCount: number; }) => {
@@ -95,7 +96,7 @@ export const getPageTC = (currentPage: number, pageSize: number) => (dispatch: a
             dispatch(setUserTotalCount(data.totalCount))
         });
 }
-export const unFollowTC = (userId: number) => (dispatch: any) => {
+export const unFollowTC = (userId: number):AppThunk => (dispatch) => {
     dispatch(setInProgress(true, userId))
     userAPI.deleteUser(userId)
         .then((data: { resultCode: number; }) => {
@@ -105,7 +106,7 @@ export const unFollowTC = (userId: number) => (dispatch: any) => {
             dispatch(setInProgress(false, userId))
         })
 }
-export const followTC = (userId: number) => (dispatch: any) => {
+export const followTC = (userId: number):AppThunk => (dispatch) => {
     dispatch(setInProgress(true, userId))
     userAPI.postUser(userId)
         .then((data: { resultCode: number; }) => {

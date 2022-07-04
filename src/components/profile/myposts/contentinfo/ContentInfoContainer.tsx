@@ -10,6 +10,7 @@ import React from "react";
 import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction} from "react-router-dom";
 import {withAuthRedirect} from "../../../HOC/WithAuthRedirect";
 import {compose} from "redux";
+import {logOutTC} from "../../../../redux/authReducer";
 
 
 export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
@@ -32,7 +33,7 @@ type mapDispatchToProps = {
     getProfileTC: (userId: string) => void
     getProfileStatusTC: (userId: string) => void
     updateProfileStatusTC: (status: string) => void
-
+    logOutTC: () => void
 }
 
 const withRouter = () => (props: ContentInfoAPIType) => {
@@ -83,7 +84,7 @@ export const ContentInfoContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {
         addPostText,
         changePost,
-        getProfileTC, getProfileStatusTC, updateProfileStatusTC
+        getProfileTC, getProfileStatusTC, updateProfileStatusTC, logOutTC
     }),
     withRouter
 )(ContentInfoAPI)

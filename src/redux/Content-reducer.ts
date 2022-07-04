@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {profileAPI, userAPI} from "../API/APIInstance";
-import {Dispatch} from "redux";
+import { profileAPI, userAPI} from "../API/APIInstance";
+import {AppThunk} from "./redux-store";
 
 const ADD_POST = "ADD-POST";
 const CHANGE_FROM_POST = 'CHANGE-FROM-POST';
@@ -34,7 +34,7 @@ export type ProfileUsersType = {
     }
 
 }
-type ActionsType =
+export type ActionsContentType =
     ReturnType<typeof changePost> |
     ReturnType<typeof addPostText> |
     ReturnType<typeof setProfileUserStatus> |
@@ -59,14 +59,14 @@ let initialStateProfile = {
     profileUsers: null as unknown  as ProfileUsersType,
     status:''
 }
-const contentReducer = (state: InitialStateProfileType = initialStateProfile, action: ActionsType): InitialStateProfileType => {
+const contentReducer = (state: InitialStateProfileType = initialStateProfile, action: ActionsContentType): InitialStateProfileType => {
 
     switch (action.type) {
         case SET_PROFILE_USER_STATUS:{
             return {...state,status: action.status }
         }
         case ADD_POST:
-            return {...state, profileUsers:{...state.profileUsers,aboutMe:action.aboutMe} }
+            return {...state, profileUsers:{...state.profileUsers,aboutMe:action.aboutMe,lookingForAJobDescription:action.aboutMe} }
 
         case CHANGE_FROM_POST:
             return {...state, newMessageFromPost: action.newText}
@@ -76,19 +76,19 @@ const contentReducer = (state: InitialStateProfileType = initialStateProfile, ac
             return state
     }
 }
-export const getProfileTC=(userId:string|undefined)=>(dispatch:Dispatch)=>{
+export const getProfileTC=(userId:string|undefined):AppThunk=>(dispatch)=>{
     userAPI.getProfile(userId)
         .then((data: ProfileUsersType) => {
             dispatch(setProfileUsers(data))
         });
 }
-export const getProfileStatusTC=(userId:string|undefined)=>(dispatch:Dispatch)=>{
+export const getProfileStatusTC=(userId:string|undefined):AppThunk=>(dispatch)=>{
     profileAPI.getProfileStatus(userId)
         .then((res) => {
               dispatch(setProfileUserStatus(res))
         });
 }
-export const updateProfileStatusTC=(status:string)=>(dispatch:Dispatch)=>{
+export const updateProfileStatusTC=(status:string):AppThunk=>(dispatch)=>{
       profileAPI.updateProfileStatus(status)
           .then(res=>{
               if(res.data.resultCode === 0){
@@ -97,7 +97,7 @@ export const updateProfileStatusTC=(status:string)=>(dispatch:Dispatch)=>{
 
           })
 }
-export const updatePropertyDescriptionTC=(aboutMe:string)=>(dispatch:Dispatch)=>{
+export const updatePropertyDescriptionTC=(aboutMe:string):AppThunk=>(dispatch)=>{
       profileAPI.updateJobDescription(aboutMe)
           .then(res=>{
               if(res.data.resultCode === 0){
@@ -106,4 +106,5 @@ export const updatePropertyDescriptionTC=(aboutMe:string)=>(dispatch:Dispatch)=>
 
           })
 }
+
 export default contentReducer

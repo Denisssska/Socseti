@@ -1,8 +1,6 @@
 import {v1} from "uuid";
 
-type ActionsType =
-
-    ReturnType<typeof AddMessageActionCreater>
+export type ActionsDialogsType = ReturnType<typeof AddMessageActionCreater>
 
 export type DialogDataType = {
     message: string
@@ -21,7 +19,7 @@ let initialStateDialog = {
     ] as DialogDataType[]
 }
 
-const dialogsReducer = (state: InitialStateDialogType = initialStateDialog, action: ActionsType): InitialStateDialogType => {
+const dialogsReducer = (state: InitialStateDialogType = initialStateDialog, action: ActionsDialogsType): InitialStateDialogType => {
 
     switch (action.type) {
         case ADD_MESSAGE:

@@ -1,7 +1,5 @@
 import React, {ChangeEvent} from 'react';
 import c from '../../content.module.css'
-
-
 import {ProfileObjType, ProfileUsersType} from "../../../../redux/Content-reducer";
 import {Preloader} from "../../../preloader/Preloader";
 import {Params} from "react-router-dom";
@@ -13,42 +11,48 @@ type ContentInfoType = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
-    updateProfileStatusTC:(status:string)=>void
-    params:Readonly<Params>
-    status:string
+    updateProfileStatusTC: (status: string) => void
+    params: Readonly<Params>
+    status: string
+    logOutTC: () => void
 }
 
 export class ContentInfo extends React.Component<ContentInfoType> {
 
     state = {
         editMode: false,
-        value:this.props.status
+        value: this.props.status
     }
-    onChangeValue=(event:ChangeEvent<HTMLInputElement>)=>{
+    onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            value:event.currentTarget.value
+            value: event.currentTarget.value
         })
     }
-componentDidUpdate(prevProps: Readonly<ContentInfoType>, prevState: Readonly<{editMode:boolean,status:string,value:string}>) {
 
-        if(prevProps.status !==this.props.status){
+    componentDidUpdate(prevProps: Readonly<ContentInfoType>, prevState: Readonly<{ editMode: boolean, status: string, value: string }>) {
+
+        if (prevProps.status !== this.props.status) {
             this.setState({
-                value:this.props.status
+                value: this.props.status
             })
         }
-}
-    activatedMode=()=> {
+    }
+
+    activatedMode = () => {
         this.setState({
             editMode: !this.state.editMode
         })
     }
 
-    deactivatedMode=() =>{
+    deactivatedMode = () => {
 
         this.setState({
             editMode: !this.state.editMode,
         })
-       this.props.updateProfileStatusTC(this.state.value)
+        this.props.updateProfileStatusTC(this.state.value)
+    }
+    logOut = () => {
+        this.props.logOutTC()
     }
 
     render() {
@@ -73,11 +77,13 @@ componentDidUpdate(prevProps: Readonly<ContentInfoType>, prevState: Readonly<{ed
                     </div>
                 </div>
 
-                { !this.state.editMode?<span className={c.span} onDoubleClick={this.activatedMode}>{this.props.status || 'No status'}</span>:
+                {!this.state.editMode ? <span className={c.span}
+                                              onDoubleClick={this.activatedMode}>{this.props.status || 'No status'}</span> :
                     <input className={c.input} value={this.state.value} autoFocus={true} onChange={this.onChangeValue}
-                    onBlur={this.deactivatedMode}/>}
+                           onBlur={this.deactivatedMode}/>}
                 <div>
-                    <AddPostForm />
+                    <AddPostForm/>
+                    <button onClick={this.logOut}>LogOut</button>
                 </div>
 
             </div>

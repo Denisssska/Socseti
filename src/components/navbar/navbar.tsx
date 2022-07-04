@@ -6,8 +6,7 @@ export const Navbar = ()=>{
 
     return(
         <nav className={c.nav} >
-            <div>
-                <NavLink style={({ isActive }) =>({backgroundColor: isActive ? 'white' : ''})}  to='/Login'>Login</NavLink></div>
+
             <div>
                 <NavLink to='/content'>Content</NavLink>
             </div>

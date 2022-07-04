@@ -1,9 +1,9 @@
 import React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
-import {loginAPI} from "../../API/APIInstance";
-import {setIsAuth} from "../../redux/authReducer";
-import {useDispatch} from "react-redux";
-
+import {loginTC} from "../../redux/authReducer";
+import {Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import c from './HookForm.module.css';
 
 export interface IShippingField {
     email: string
@@ -13,38 +13,45 @@ export interface IShippingField {
 }
 
 const HookForm = () => {
-    const dispatch = useDispatch()
-    const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful,isValid}} = useForm<IShippingField>({
+    const dispatch = useAppDispatch()
+    const state = useAppSelector((state) => state.auth.isAuth)
+
+    const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful, isValid}} = useForm<IShippingField>({
         mode: 'onBlur'
     })
     const onSubmit: SubmitHandler<IShippingField> = (data) => {
-        console.log(data)
-        loginAPI.autorisedProfile(data.email, data.password, data.rememberMe)
-            .then((res) => dispatch(setIsAuth(res.data.data.userId)))
+        dispatch(loginTC(data.email, data.password, data.rememberMe))
         reset()
     }
+
+    if (state) return <Navigate to={'/content'}/>
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input {...(register('password', {
-                required: 'Enter password please',
-                minLength: {
-                    value: 8,
-                    message: '5 symbols minimal'
-                }
-            }))} placeholder='password'/>
-            {errors.password && <div style={{color: "red"}}>{errors?.password.message || 'Error!'}</div>}
-            <input {...(register('captcha', {required: 'Enter captcha please'}))} placeholder='captcha'/>
-            {errors.captcha && <div style={{color: "red"}}>{errors.captcha.message}</div>}
-            <input {...(register('email', {
-                validate: undefined,
-                required: 'Enter email please'
-            }))} placeholder="email"/>
-            {errors.email && <div style={{color: "red"}}>{errors.email.message}</div>}
-            <input type="checkbox"{...register("rememberMe", {required: 'checked me please'})}/>
-            {errors.rememberMe && <div style={{color: "red"}}>{errors.rememberMe.message}</div>}
-            {isSubmitSuccessful && <div style={{color: "yellowgreen"}}>successfully</div>}
-            {/*<button >Send</button>*/}
-            <input type="submit" disabled={!isValid}/>
+
+        <form className={c.form} onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                <input {...(register('password', {
+                    required: 'Enter password please',
+                    minLength: {
+                        value: 8,
+                        message: '5 symbols minimal'
+                    }
+                }))} placeholder='password'/>
+                {errors.password && <span style={{color: "red"}}>{errors?.password.message || 'Error!'}</span>}
+            </div>
+            <div>
+                <input {...(register('email', {
+                    validate: undefined,
+                    required: 'Enter email please'
+                }))} placeholder="email"/>
+                {errors.email && <span style={{color: "red"}}>{errors.email.message}</span>}
+            </div>
+            <div>
+                <input type="checkbox"{...register("rememberMe", {required: 'checked me please'})}/>
+                {errors.rememberMe && <div style={{color: "red"}}>{errors.rememberMe.message}</div>}
+                <input type="submit" disabled={!isValid}/>
+                {isSubmitSuccessful && <div style={{color: "yellowgreen"}}>successfully</div>}
+            </div>
+
         </form>
 
     );
