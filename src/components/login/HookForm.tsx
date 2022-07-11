@@ -16,7 +16,7 @@ const HookForm = () => {
     const dispatch = useAppDispatch()
     const state = useAppSelector((state) => state.auth.isAuth)
 
-    const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful, isValid}} = useForm<IShippingField>({
+    const {register, handleSubmit, reset, formState: {errors, isSubmitSuccessful,isValid}} = useForm<IShippingField>({
         mode: 'onBlur'
     })
     const onSubmit: SubmitHandler<IShippingField> = (data) => {
@@ -36,7 +36,7 @@ const HookForm = () => {
                         message: '5 symbols minimal'
                     }
                 }))} placeholder='password'/>
-                {errors.password && <span style={{color: "red"}}>{errors?.password.message || 'Error!'}</span>}
+                {!state && errors.password && <span style={{color: "red"}}>{errors?.password.message || 'Error!'}</span>}
             </div>
             <div>
                 <input {...(register('email', {
@@ -49,7 +49,7 @@ const HookForm = () => {
                 <input type="checkbox"{...register("rememberMe", {required: 'checked me please'})}/>
                 {errors.rememberMe && <div style={{color: "red"}}>{errors.rememberMe.message}</div>}
                 <input type="submit" disabled={!isValid}/>
-                {isSubmitSuccessful && <div style={{color: "yellowgreen"}}>successfully</div>}
+                {isSubmitSuccessful && <div style={{color: "yellowgreen"}}> successfully</div>}
             </div>
 
         </form>

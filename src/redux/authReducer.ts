@@ -46,8 +46,9 @@ const authReducer = (state: InitialDataStateType = initialDataState, action: Act
             return state
     }
 }
-export const getAuthTC = (): AppThunk => (dispatch) => {
-    userAPI.getAuth()
+
+export const getAuthTC = (): AppThunk => (dispatch):any=> {
+   return userAPI.getAuth()
         .then((data) => {
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data;

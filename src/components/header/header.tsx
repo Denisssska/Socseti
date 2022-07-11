@@ -16,7 +16,7 @@ const Headers:React.FC<HeaderTypeProps> = ({data,isAuth}) => {
                 {isAuth? <>
                     <div className={c.name}>{data.login}</div>
                 </>: <NavLink to={'/login'}>Login</NavLink>}
-                {/*{isAuth&&<Navigate to={'/content'}/>}*/}
+
             </div>
         </header >
     )

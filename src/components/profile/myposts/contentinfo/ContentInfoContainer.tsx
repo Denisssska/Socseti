@@ -11,20 +11,22 @@ import {Params, Location, useLocation, useNavigate, useParams, NavigateFunction}
 import {withAuthRedirect} from "../../../HOC/WithAuthRedirect";
 import {compose} from "redux";
 import {logOutTC} from "../../../../redux/authReducer";
+import {createSelector} from "reselect";
 
 
 export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
 
-type ParamsType = {
+export type ParamsType = {
     params: Readonly<Params>
-    location: Location
-    navigate: Readonly<NavigateFunction>
+    location?: Location
+    navigate?: Readonly<NavigateFunction>
 }
 type mapStateToPropsTypes = {
     newMessageFromPost: string
     profileObj: Array<ProfileObjType>
     profileUsers: ProfileUsersType
     status: string
+    initialized:boolean
 
 }
 type mapDispatchToProps = {
@@ -57,9 +59,10 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
         if (!userId) {
             userId = ' 24035'
         }
+
         this.props.getProfileTC(userId)
         this.props.getProfileStatusTC(userId)
-
+        console.log(this.props.initialized)
     }
 
     render() {
@@ -72,10 +75,12 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
 
 const mapStateToProps = (state: StateAppType): mapStateToPropsTypes => {
     return {
-        newMessageFromPost: state.profile.newMessageFromPost,
+        // newMessageFromPost: state.profile.newMessageFromPost,
+        newMessageFromPost:newMessageFromPost(state),
         profileObj: state.profile.profileObj,
         profileUsers: state.profile.profileUsers,
         status: state.profile.status,
+        initialized:state.initialized.initialized
 
     }
 }
@@ -93,3 +98,10 @@ export const ContentInfoContainer = compose<React.ComponentType>(
 //     changePost,
 //     getProfileTC
 // })(withRouter()))
+
+const getNewMessageFromPostSelector =(state:StateAppType)=>{
+    return state.profile.newMessageFromPost
+}
+const newMessageFromPost = createSelector(getNewMessageFromPostSelector,(newMessageFromPost)=>{
+return newMessageFromPost
+})

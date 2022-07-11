@@ -4,6 +4,7 @@ import dialogsReducer, {ActionsDialogsType} from "./dialogs-reducer";
 import friendsReducer, {ActionsFriendsType} from "./friendsReducer";
 import authReducer, {ActionsAuthType} from "./authReducer";
 import thunk, {ThunkAction,ThunkDispatch} from "redux-thunk";
+import {ActionsInitializedType, initializedReducer} from "./appReducer";
 
 export type StoreType= typeof legacy_createStore;
 export type StateAppType = ReturnType<typeof reducersBox>
@@ -12,12 +13,13 @@ let reducersBox = combineReducers({
     dialog: dialogsReducer,
     users: friendsReducer,
     auth:authReducer,
+    initialized:initializedReducer
 
 })
 let store = legacy_createStore(reducersBox,applyMiddleware(thunk))
 export default store
 
-export type AppActionsType =ActionsAuthType | ActionsFriendsType | ActionsDialogsType | ActionsContentType
+export type AppActionsType =ActionsAuthType | ActionsFriendsType | ActionsDialogsType | ActionsContentType|ActionsInitializedType
 export type AppDispatch = ThunkDispatch< RootState,
     unknown,
     AppActionsType>

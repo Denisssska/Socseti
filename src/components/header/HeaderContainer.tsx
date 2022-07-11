@@ -2,21 +2,17 @@ import {Header} from "./header";
 import {connect} from "react-redux";
 import React from "react";
 import {StateAppType} from "../../redux/redux-store";
-import {DataType, getAuthTC} from "../../redux/authReducer";
+import {DataType} from "../../redux/authReducer";
 
 
 type MapStateToPropsType = {
     data: DataType
     isAuth: boolean
 }
-type MapDispatchToPropsType = {
-    getAuthTC: () => void
-}
+type MapDispatchToPropsType = {}
 
 class AuthHeader extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
-    componentDidMount() {
-        this.props.getAuthTC()
-    }
+
     render() {
 
         return (
@@ -32,4 +28,4 @@ const mapStateToProps = (state: StateAppType): MapStateToPropsType => {
     }
 }
 
-export const HeaderContainer = connect(mapStateToProps, {getAuthTC})(AuthHeader)
+export const HeaderContainer = connect(mapStateToProps )(AuthHeader)
