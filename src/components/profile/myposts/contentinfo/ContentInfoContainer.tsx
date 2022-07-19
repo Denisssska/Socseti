@@ -12,6 +12,7 @@ import {withAuthRedirect} from "../../../HOC/WithAuthRedirect";
 import {compose} from "redux";
 import {logOutTC} from "../../../../redux/authReducer";
 import {createSelector} from "reselect";
+import {ContentInfoFunctional} from "./contentinfoFunctional";
 
 
 export type ContentInfoAPIType = mapStateToPropsTypes & mapDispatchToProps;
@@ -67,7 +68,8 @@ class ContentInfoAPI extends React.Component<ContentInfoAPIType & ParamsType> {
 
     render() {
         return <div>
-            <ContentInfo {...this.props}
+            {/*<ContentInfo {...this.props}*/}
+            <ContentInfoFunctional {...this.props}
             />
         </div>
     }
